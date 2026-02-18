@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مكتب حي الفتح للعقار - النسخة السحابية</title>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        :root { --primary: #113f28; --secondary: #d4af37; --bg: #f4f6f9; --text: #333; }
+        body { font-family: 'Tajawal', sans-serif; margin: 0; background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
+        header { background: linear-gradient(135deg, var(--primary), #1a5c3a); color: white; padding: 25px 20px; text-align: center; position: relative; border-bottom: 4px solid var(--secondary); }
+        .admin-btn { position: absolute; top: 15px; left: 15px; background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        .container { width: 95%; max-width: 1200px; margin: 30px auto; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        #adminPanel { display: none; border: 2px solid var(--secondary); background: #faf8f0; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        input, select, button { padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Tajawal'; outline: none; }
+        .private-field { border-color: #ff9800; background: #fffde7; }
+        .table-wrapper { background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+        th { background: var(--primary); color: white; padding: 18px 15px; text-align: right; }
+        td { padding: 15px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+        .img-gallery { display: flex; gap: 5px; flex-wrap: wrap; max-width: 180px; }
+        .prop-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; cursor: pointer; }
+        .price-tag { color: var(--primary); font-weight: bold; background: #e8f5e9; padding: 5px 10px; border-radius: 6px; }
+        .btn-wa-inline { background: #25D366; color: white; display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 6px; text-decoration: none; }
+        .btn-wa-inline svg { width: 22px; height: 22px; fill: white; }
+        .wa-container { position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
+        .wa-floating { background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; position: relative; border: 2px solid white; }
+        .wa-floating svg { width: 32px; height: 32px; fill: white; }
+    </style>
+</head>
+<body>
+
+    <div class="wa-container">
+        <a href="https://wa.me/966505055056" class="wa-floating" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+        <a href="https://wa.me/966590002216" class="wa-floating" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+    </div>
+
+    <header>
+        <button type="button" class="admin-btn" onclick="toggleAdmin()" id="loginBtn">دخول الموظفين</button>
+        <h1>حي الفتح للعقار</h1>
+        <p>نظام العقارات الموحد (سحابي)</p>
+    </header>
+
+    <div class="container">
+        <div id="adminPanel" class="card">
+            <h2 id="formTitle">إضافة عقار جديد</h2>
+            <form id="propForm">
+                <input type="hidden" id="editId" value="">
+                <div class="form-grid">
+                    <input type="text" id="f_type" placeholder="نوع العقار" required>
+                    <input type="text" id="f_neigh" placeholder="اسم الحي" required>
+                    <input type="text" id="f_area" placeholder="المساحة" required>
+                    <input type="text" id="f_price" placeholder="السعر" required>
+                    <input type="text" id="f_ownerName" class="private-field" placeholder="اسم المالك" required>
+                    <input type="text" id="f_ownerPhone" class="private-field" placeholder="رقم المالك" required>
+                    <div style="grid-column: 1 / -1;">
+                        <input type="file" id="f_imgs" accept="image/*" multiple>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; display: flex; gap: 10px;">
+                    <button type="submit" id="saveBtn" style="background:var(--primary); color:white; flex:1;">حفظ في السحابة</button>
+                    <button type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666; color:white;">إلغاء</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="form-grid">
+                <input type="text" id="searchNeigh" placeholder="🔍 ابحث باسم الحي..." onkeyup="loadData()">
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>التاريخ</th>
+                        <th>الصور</th>
+                        <th>النوع</th>
+                        <th>الحي</th>
+                        <th>السعر</th>
+                        <th>تواصل</th>
+                        <th class="admin-only" style="display:none;">المالك</th>
+                        <th class="admin-only" style="display:none;">إدارة</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // --- ضع بيانات Firebase الخاصة بك هنا ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // ---------------------------------------
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        let isAdmin = false;
+
+        function toggleAdmin() {
+            if (!isAdmin && prompt("Password:") === "123") {
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginBtn').innerText = "خروج";
+            } else {
+                isAdmin = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('loginBtn').innerText = "دخول الموظفين";
+            }
+            loadData();
+        }
+
+        async function loadData() {
+            const queryText = document.getElementById('searchNeigh').value;
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '<tr><td colspan="7">جاري التحميل...</td></tr>';
+
+            const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
+            tbody.innerHTML = '';
+            
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
+
+            snapshot.forEach(doc => {
+                const item = doc.data();
+                if (queryText && !item.neigh.includes(queryText)) return;
+
+                let gallery = '<div class="img-gallery">';
+                (item.imgs || []).forEach(src => gallery += `<img src="${src}" class="prop-img" onclick="window.open('${src}')">`);
+                gallery += '</div>';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.date}</td>
+                        <td>${gallery}</td>
+                        <td>${item.type}</td>
+                        <td>${item.neigh}</td>
+                        <td><span class="price-tag">${item.price}</span></td>
+                        <td><a href="https://wa.me/966590002216" class="btn-wa-inline"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a></td>
+                        ${isAdmin ? `<td style="background:#fffde7">${item.ownerName}<br>${item.ownerPhone}</td>
+                        <td><button onclick="editItem('${doc.id}')">تعديل</button><button onclick="deleteItem('${doc.id}')">حذف</button></td>` : ''}
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('propForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('editId').value;
+            const files = document.getElementById('f_imgs').files;
+            let imgList = [];
+
+            for (let f of files) {
+                const base64 = await new Promise(r => {
+                    const rd = new FileReader();
+                    rd.onload = e => r(e.target.result);
+                    rd.readAsDataURL(f);
+                });
+                imgList.push(base64);
+            }
+
+            const data = {
+                date: new Date().toLocaleDateString('en-GB'),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                type: document.getElementById('f_type').value,
+                neigh: document.getElementById('f_neigh').value,
+                area: document.getElementById('f_area').value,
+                price: document.getElementById('f_price').value,
+                ownerName: document.getElementById('f_ownerName').value,
+                ownerPhone: document.getElementById('f_ownerPhone').value,
+            };
+            if(imgList.length > 0) data.imgs = imgList;
+
+            if (id) await db.collection('properties').doc(id).update(data);
+            else await db.collection('properties').add(data);
+
+            cancelEdit();
+            loadData();
+        };
+
+        async function editItem(id) {
+            const doc = await db.collection('properties').doc(id).get();
+            const item = doc.data();
+            document.getElementById('editId').value = id;
+            document.getElementById('f_type').value = item.type;
+            document.getElementById('f_neigh').value = item.neigh;
+            document.getElementById('f_area').value = item.area;
+            document.getElementById('f_price').value = item.price;
+            document.getElementById('f_ownerName').value = item.ownerName;
+            document.getElementById('f_ownerPhone').value = item.ownerPhone;
+            document.getElementById('formTitle').innerText = "تعديل البيانات";
+            document.getElementById('cancelBtn').style.display = "block";
+            window.scrollTo(0,0);
+        }
+
+        async function deleteItem(id) { if(confirm("حذف؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
+        function cancelEdit() { document.getElementById('editId').value = ""; document.getElementById('propForm').reset(); document.getElementById('cancelBtn').style.display = "none"; }
+
+        loadData();
+    </script>
+</body>
+</html>
