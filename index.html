@@ -10,8 +10,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
         :root { --primary: #113f28; --secondary: #d4af37; --bg: #f4f6f9; --text: #333; }
         body { font-family: 'Tajawal', sans-serif; margin: 0; background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
-        header { background: linear-gradient(135deg, var(--primary), #1a5c3a); color: white; padding: 25px 20px; text-align: center; position: relative; border-bottom: 4px solid var(--secondary); }
-        .admin-btn { position: absolute; top: 15px; left: 15px; background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 6px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
+        
+        /* تعديلات الهيدر والشعار */
+        header { background: linear-gradient(135deg, var(--primary), #1a5c3a); color: white; padding: 20px; position: relative; border-bottom: 4px solid var(--secondary); display: flex; flex-direction: column; align-items: center; }
+        .header-content { display: flex; align-items: center; gap: 15px; margin-top: 30px; }
+        .logo { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--secondary); object-fit: cover; background: white; }
+        header h1 { margin: 0; font-size: 24px; }
+        header p { margin: 5px 0 0; opacity: 0.8; font-size: 14px; }
+
+        /* أزرار التحكم العلوية */
+        .top-buttons { position: absolute; top: 15px; left: 15px; display: flex; gap: 10px; }
+        .control-btn { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; font-family: 'Tajawal'; transition: 0.3s; }
+        .control-btn:hover { background: var(--secondary); color: var(--primary); }
+        .home-btn { background: rgba(255,255,255,0.1); border: none; color: white; }
+        
         .container { width: 95%; max-width: 1200px; margin: 30px auto; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); margin-bottom: 25px; }
         #adminPanel { display: none; border: 2px solid var(--secondary); background: #faf8f0; }
@@ -27,15 +39,16 @@
         .price-tag { color: var(--primary); font-weight: bold; background: #e8f5e9; padding: 5px 10px; border-radius: 6px; }
         .btn-action { background: var(--secondary); color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-family: 'Tajawal'; font-weight: bold; }
         
-        /* Modal (Details Window) Styles */
-        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
-        .modal-content { background-color: #fff; margin: 5% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; max-height: 85vh; overflow-y: auto; }
-        .close-btn { color: #aaa; position: absolute; top: 15px; left: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .close-btn:hover { color: #000; }
-        .modal-images { display: flex; overflow-x: auto; gap: 10px; margin-top: 15px; padding-bottom: 10px; }
-        .modal-images img { height: 250px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd; }
+        /* نافذة التفاصيل المنبثقة */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); overflow-y: auto; }
+        .modal-content { background-color: #fff; margin: 5vh auto; padding: 25px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .close-btn { color: #aaa; position: absolute; top: 15px; left: 20px; font-size: 35px; font-weight: bold; cursor: pointer; line-height: 1; }
+        .close-btn:hover { color: var(--primary); }
+        .modal-images { display: flex; overflow-x: auto; gap: 10px; margin: 20px 0; padding-bottom: 15px; scrollbar-width: thin; }
+        .modal-images img { height: 220px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd; flex-shrink: 0; }
+        .modal-details-list p { margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between; }
+        .modal-details-list strong { color: var(--primary); }
         
-        /* Loading Overlay */
         #loadingOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; justify-content:center; align-items:center; flex-direction:column; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -55,9 +68,18 @@
     </div>
 
     <header>
-        <button type="button" class="admin-btn" onclick="toggleAdmin()" id="loginBtn">دخول الموظفين</button>
-        <h1>حي الفتح للعقار</h1>
-        <p>نظام إدراج العقارات الذكي</p>
+        <div class="top-buttons">
+            <button type="button" class="control-btn home-btn" onclick="goHome()">🏠 الرئيسية</button>
+            <button type="button" class="control-btn" onclick="toggleAdmin()" id="loginBtn">👤 دخول الموظفين</button>
+        </div>
+        
+        <div class="header-content">
+            <img src="https://c.top4top.io/p_37048y9xn1.jpg" alt="شعار المكتب" class="logo" id="shopLogo">
+            <div>
+                <h1>حي الفتح للعقار</h1>
+                <p>نظام إدراج العقارات الذكي</p>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -108,7 +130,7 @@
     </div>
 
     <script>
-        // Firebase Configuration
+        // بيانات فايربيس (مضافة مسبقاً)
         const firebaseConfig = {
             apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
             authDomain: "alfateh-aqar.firebaseapp.com",
@@ -122,21 +144,26 @@
         const db = firebase.firestore();
         let isAdmin = false;
 
-        // Login System
+        // وظيفة زر الرئيسية
+        function goHome() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('searchNeigh').value = '';
+            loadData();
+        }
+
         function toggleAdmin() {
             if (!isAdmin && prompt("كلمة مرور الموظفين:") === "123") {
                 isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('loginBtn').innerText = "خروج";
+                document.getElementById('loginBtn').innerHTML = "👤 خروج";
             } else {
                 isAdmin = false;
                 document.getElementById('adminPanel').style.display = 'none';
-                document.getElementById('loginBtn').innerText = "دخول الموظفين";
+                document.getElementById('loginBtn').innerHTML = "👤 دخول الموظفين";
             }
             loadData();
         }
 
-        // Image Compressor (To allow multiple uploads without crashing)
         async function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -160,11 +187,10 @@
             });
         }
 
-        // Load Properties Table
         async function loadData() {
             const queryText = document.getElementById('searchNeigh').value;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">جاري التحميل...</td></tr>';
 
             try {
                 const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
@@ -175,14 +201,13 @@
                     const item = doc.data();
                     if (queryText && !item.neigh.includes(queryText)) return;
 
-                    // Show max 2 tiny thumbnails in the table to keep it clean
                     let gallery = '<div class="img-gallery">';
                     let imgCount = item.imgs ? item.imgs.length : 0;
                     if (imgCount > 0) {
                         gallery += `<img src="${item.imgs[0]}" class="prop-img">`;
                         if (imgCount > 1) gallery += `<span style="font-size:12px; color:gray; line-height:45px;">+${imgCount-1}</span>`;
                     } else {
-                        gallery += '<span style="font-size:12px; color:gray;">لا توجد صور</span>';
+                        gallery += '<span style="font-size:12px; color:gray;">بدون صور</span>';
                     }
                     gallery += '</div>';
 
@@ -193,50 +218,62 @@
                             <td>${item.type}</td>
                             <td>${item.neigh}</td>
                             <td><span class="price-tag">${item.price}</span></td>
-                            <td><button class="btn-action" onclick="openDetails('${doc.id}')">التفاصيل</button></td>
-                            ${isAdmin ? `<td style="background:#fffde7">${item.ownerName}<br>${item.ownerPhone}</td>
-                            <td><button onclick="editItem('${doc.id}')" style="margin-bottom:5px; width:100%;">تعديل</button> <br> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white; width:100%;">حذف</button></td>` : ''}
+                            <td><button class="btn-action" onclick="openDetails('${doc.id}')">👁️ عرض</button></td>
+                            ${isAdmin ? `<td style="background:#fffde7; font-size:0.9em;">${item.ownerName}<br>${item.ownerPhone}</td>
+                            <td><button onclick="editItem('${doc.id}')" style="margin-bottom:5px; width:100%; font-size:12px;">تعديل</button> <br> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white; width:100%; font-size:12px;">حذف</button></td>` : ''}
                         </tr>
                     `;
                 });
-            } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="8">حدث خطأ في التحميل</td></tr>'; }
+                if (tbody.innerHTML === '') {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">لا توجد عقارات مطابقة للبحث.</td></tr>';
+                }
+            } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red;">حدث خطأ في التحميل، تأكد من الإنترنت.</td></tr>'; }
         }
 
-        // Open Details Modal Window
+        // وظيفة فتح نافذة التفاصيل
         async function openDetails(id) {
-            const doc = await db.collection('properties').doc(id).get();
-            const item = doc.data();
-            
-            let imagesHtml = '<div class="modal-images">';
-            if (item.imgs && item.imgs.length > 0) {
-                item.imgs.forEach(src => imagesHtml += `<img src="${src}">`);
-            } else {
-                imagesHtml += '<p>لا توجد صور مرفقة.</p>';
-            }
-            imagesHtml += '</div>';
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            try {
+                const doc = await db.collection('properties').doc(id).get();
+                const item = doc.data();
+                
+                let imagesHtml = '<div class="modal-images">';
+                if (item.imgs && item.imgs.length > 0) {
+                    item.imgs.forEach(src => imagesHtml += `<img src="${src}" onclick="window.open('${src}')" style="cursor:zoom-in;">`);
+                } else {
+                    imagesHtml += '<p style="text-align:center; width:100%; color:gray;">لا توجد صور مرفقة لهذا العقار.</p>';
+                }
+                imagesHtml += '</div>';
 
-            const detailsHtml = `
-                <h2 style="color:var(--primary); margin-top:0;">${item.type} في ${item.neigh}</h2>
-                <hr style="border:0; border-top:1px solid #ddd; margin-bottom:15px;">
-                ${imagesHtml}
-                <div style="font-size:18px; line-height:1.8;">
-                    <p><strong>المساحة:</strong> ${item.area}</p>
-                    <p><strong>السعر:</strong> <span class="price-tag" style="font-size:20px;">${item.price}</span></p>
-                    <p><strong>تاريخ الإضافة:</strong> ${item.date}</p>
-                </div>
-                <br>
-                <a href="https://wa.me/966590002216?text=بخصوص العقار: ${item.type} في ${item.neigh}" target="_blank" style="background:#25D366; color:white; padding:12px 20px; text-decoration:none; border-radius:8px; display:inline-block; font-weight:bold; text-align:center; width:calc(100% - 40px);">تواصل معنا عبر واتساب</a>
-            `;
-            document.getElementById('modalBody').innerHTML = detailsHtml;
-            document.getElementById('detailsModal').style.display = 'block';
+                const detailsHtml = `
+                    <h2 style="color:var(--primary); margin-top:0; text-align:center;">${item.type} في ${item.neigh}</h2>
+                    <hr style="border:0; border-top:1px solid #ddd; margin-bottom:15px;">
+                    <p style="text-align:center; font-size:14px; color:#666;">(اضغط على الصورة لتكبيرها)</p>
+                    ${imagesHtml}
+                    <div class="modal-details-list" style="font-size:16px;">
+                        <p><strong>المساحة:</strong> <span>${item.area}</span></p>
+                        <p><strong>السعر:</strong> <span class="price-tag" style="font-size:18px;">${item.price}</span></p>
+                        <p><strong>تاريخ الإضافة:</strong> <span>${item.date}</span></p>
+                    </div>
+                    <br>
+                    <a href="https://wa.me/966590002216?text=السلام عليكم، أستفسر عن العقار: ${item.type} في حي ${item.neigh} المعروض بسعر ${item.price}" target="_blank" style="background:#25D366; color:white; padding:15px; text-decoration:none; border-radius:8px; display:block; font-weight:bold; text-align:center; font-size:18px;">
+                        <svg style="width:24px;height:24px;vertical-align:middle;margin-left:10px;" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                        تواصل واحجز الآن
+                    </a>
+                `;
+                document.getElementById('modalBody').innerHTML = detailsHtml;
+                document.getElementById('detailsModal').style.display = 'block';
+            } catch (err) {
+                alert("تعذر تحميل التفاصيل، يرجى المحاولة مرة أخرى.");
+            } finally {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
         }
 
-        // Close Details Modal
         function closeDetails() {
             document.getElementById('detailsModal').style.display = 'none';
         }
 
-        // Save Form (Add or Update)
         document.getElementById('propForm').onsubmit = async function(e) {
             e.preventDefault();
             document.getElementById('loadingOverlay').style.display = 'flex';
@@ -261,7 +298,6 @@
                 ownerPhone: document.getElementById('f_ownerPhone').value,
             };
             
-            // Only update images if new ones are uploaded
             if(imgList.length > 0) { data.imgs = imgList; }
 
             try {
@@ -270,13 +306,12 @@
                 cancelEdit();
                 await loadData();
             } catch (err) {
-                alert("Error saving data. Make sure you have internet access.");
+                alert("حدث خطأ أثناء الحفظ، تأكد من اتصالك بالإنترنت.");
             } finally {
                 document.getElementById('loadingOverlay').style.display = 'none';
             }
         };
 
-        // Edit Button Logic
         async function editItem(id) {
             const doc = await db.collection('properties').doc(id).get();
             const item = doc.data();
@@ -289,18 +324,18 @@
             document.getElementById('f_ownerPhone').value = item.ownerPhone;
             document.getElementById('formTitle').innerText = "تعديل البيانات";
             document.getElementById('cancelBtn').style.display = "block";
-            window.scrollTo(0,0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Delete Button Logic
         async function deleteItem(id) { 
-            if(confirm("هل أنت متأكد من حذف هذا العقار؟")) { 
+            if(confirm("هل أنت متأكد من حذف هذا العقار نهائياً؟")) { 
+                document.getElementById('loadingOverlay').style.display = 'flex';
                 await db.collection('properties').doc(id).delete(); 
                 loadData(); 
+                document.getElementById('loadingOverlay').style.display = 'none';
             } 
         }
 
-        // Cancel Edit
         function cancelEdit() { 
             document.getElementById('editId').value = ""; 
             document.getElementById('propForm').reset(); 
@@ -308,7 +343,6 @@
             document.getElementById('formTitle').innerText = "إضافة عقار جديد"; 
         }
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             let modal = document.getElementById('detailsModal');
             if (event.target == modal) { modal.style.display = "none"; }
