@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتب حي الفتح للعقار - النسخة السحابية</title>
+    <title>مكتب حي الفتح للعقار - النسخة الاحترافية</title>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
     <style>
@@ -23,26 +23,32 @@
         th { background: var(--primary); color: white; padding: 18px 15px; text-align: right; }
         td { padding: 15px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
         .img-gallery { display: flex; gap: 5px; flex-wrap: wrap; max-width: 180px; }
-        .prop-img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; cursor: pointer; }
+        .prop-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; transition: 0.3s; }
+        .prop-img:hover { transform: scale(1.1); }
         .price-tag { color: var(--primary); font-weight: bold; background: #e8f5e9; padding: 5px 10px; border-radius: 6px; }
         .btn-wa-inline { background: #25D366; color: white; display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 6px; text-decoration: none; }
-        .btn-wa-inline svg { width: 22px; height: 22px; fill: white; }
+        .btn-wa-inline svg { width: 22px; height: 22px; fill: white; margin-left: 5px; }
         .wa-container { position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
-        .wa-floating { background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; position: relative; border: 2px solid white; }
+        .wa-floating { background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; border: 2px solid white; }
         .wa-floating svg { width: 32px; height: 32px; fill: white; }
+        #loadingOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; justify-content:center; align-items:center; flex-direction:column; }
     </style>
 </head>
 <body>
 
+    <div id="loadingOverlay">
+        <div style="border:5px solid #f3f3f3; border-top:5px solid var(--primary); border-radius:50%; width:50px; height:50px; animation: spin 1s linear infinite;"></div>
+        <p>جاري معالجة الصور والحفظ...</p>
+    </div>
+
     <div class="wa-container">
         <a href="https://wa.me/966505055056" class="wa-floating" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
-        <a href="https://wa.me/966590002216" class="wa-floating" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
     </div>
 
     <header>
         <button type="button" class="admin-btn" onclick="toggleAdmin()" id="loginBtn">دخول الموظفين</button>
         <h1>حي الفتح للعقار</h1>
-        <p>نظام العقارات الموحد (سحابي)</p>
+        <p>نظام إدراج العقارات الذكي</p>
     </header>
 
     <div class="container">
@@ -51,27 +57,26 @@
             <form id="propForm">
                 <input type="hidden" id="editId" value="">
                 <div class="form-grid">
-                    <input type="text" id="f_type" placeholder="نوع العقار" required>
+                    <input type="text" id="f_type" placeholder="نوع العقار (فيلا، شقة..)" required>
                     <input type="text" id="f_neigh" placeholder="اسم الحي" required>
                     <input type="text" id="f_area" placeholder="المساحة" required>
                     <input type="text" id="f_price" placeholder="السعر" required>
-                    <input type="text" id="f_ownerName" class="private-field" placeholder="اسم المالك" required>
-                    <input type="text" id="f_ownerPhone" class="private-field" placeholder="رقم المالك" required>
+                    <input type="text" id="f_ownerName" class="private-field" placeholder="اسم المالك (خاص)" required>
+                    <input type="text" id="f_ownerPhone" class="private-field" placeholder="رقم المالك (خاص)" required>
                     <div style="grid-column: 1 / -1;">
+                        <label style="display:block; margin-bottom:5px; font-size:13px; color:#666;">ارفع الصور (سيتم تصغيرها تلقائياً لجودة عالية وحجم صغير):</label>
                         <input type="file" id="f_imgs" accept="image/*" multiple>
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button type="submit" id="saveBtn" style="background:var(--primary); color:white; flex:1;">حفظ في السحابة</button>
-                    <button type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666; color:white;">إلغاء</button>
+                    <button type="submit" id="saveBtn" style="background:var(--primary); color:white; flex:1; cursor:pointer;">حفظ في السحابة</button>
+                    <button type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666; color:white; cursor:pointer;">إلغاء</button>
                 </div>
             </form>
         </div>
 
         <div class="card">
-            <div class="form-grid">
-                <input type="text" id="searchNeigh" placeholder="🔍 ابحث باسم الحي..." onkeyup="loadData()">
-            </div>
+            <input type="text" id="searchNeigh" style="width:100%; box-sizing:border-box;" placeholder="🔍 ابحث باسم الحي..." onkeyup="loadData()">
         </div>
 
         <div class="table-wrapper">
@@ -94,13 +99,15 @@
     </div>
 
     <script>
-        // --- ضع بيانات Firebase الخاصة بك هنا ---
-        const firebaseConfig = {apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
-  authDomain: "alfateh-aqar.firebaseapp.com",
-  projectId: "alfateh-aqar",
-  storageBucket: "alfateh-aqar.firebasestorage.app",
-  messagingSenderId: "170214550520",
-  appId: "1:170214550520:web:638dfbc62ea5edc7cc040d"};
+        // --- بيانات Firebase الخاصة بك تم إضافتها هنا ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
+            authDomain: "alfateh-aqar.firebaseapp.com",
+            projectId: "alfateh-aqar",
+            storageBucket: "alfateh-aqar.firebasestorage.app",
+            messagingSenderId: "170214550520",
+            appId: "1:170214550520:web:638dfbc62ea5edc7cc040d"
+        };
         // ---------------------------------------
 
         firebase.initializeApp(firebaseConfig);
@@ -108,7 +115,7 @@
         let isAdmin = false;
 
         function toggleAdmin() {
-            if (!isAdmin && prompt("Password:") === "123") {
+            if (!isAdmin && prompt("كلمة مرور الموظفين:") === "123") {
                 isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('loginBtn').innerText = "خروج";
@@ -120,52 +127,84 @@
             loadData();
         }
 
+        // وظيفة تصغير الصور بجودة عالية
+        async function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800; // تصغير العرض لـ 800 بكسل كحد أقصى
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // تصدير الصورة بجودة 0.7 (متوازنة بين الحجم والجودة)
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                };
+            });
+        }
+
         async function loadData() {
             const queryText = document.getElementById('searchNeigh').value;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="7">جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8">جاري التحميل...</td></tr>';
 
-            const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
-            tbody.innerHTML = '';
-            
-            document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
+            try {
+                const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
+                tbody.innerHTML = '';
+                
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
 
-            snapshot.forEach(doc => {
-                const item = doc.data();
-                if (queryText && !item.neigh.includes(queryText)) return;
+                snapshot.forEach(doc => {
+                    const item = doc.data();
+                    if (queryText && !item.neigh.includes(queryText)) return;
 
-                let gallery = '<div class="img-gallery">';
-                (item.imgs || []).forEach(src => gallery += `<img src="${src}" class="prop-img" onclick="window.open('${src}')">`);
-                gallery += '</div>';
+                    let gallery = '<div class="img-gallery">';
+                    (item.imgs || []).forEach(src => gallery += `<img src="${src}" class="prop-img" onclick="window.open('${src}')">`);
+                    gallery += '</div>';
 
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.date}</td>
-                        <td>${gallery}</td>
-                        <td>${item.type}</td>
-                        <td>${item.neigh}</td>
-                        <td><span class="price-tag">${item.price}</span></td>
-                        <td><a href="https://wa.me/966590002216" class="btn-wa-inline"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a></td>
-                        ${isAdmin ? `<td style="background:#fffde7">${item.ownerName}<br>${item.ownerPhone}</td>
-                        <td><button onclick="editItem('${doc.id}')">تعديل</button><button onclick="deleteItem('${doc.id}')">حذف</button></td>` : ''}
-                    </tr>
-                `;
-            });
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.date}</td>
+                            <td>${gallery}</td>
+                            <td>${item.type}</td>
+                            <td>${item.neigh}</td>
+                            <td><span class="price-tag">${item.price}</span></td>
+                            <td><a href="https://wa.me/966590002216" class="btn-wa-inline"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>واتساب</a></td>
+                            ${isAdmin ? `<td style="background:#fffde7">${item.ownerName}<br>${item.ownerPhone}</td>
+                            <td><button onclick="editItem('${doc.id}')">تعديل</button> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white;">حذف</button></td>` : ''}
+                        </tr>
+                    `;
+                });
+            } catch (e) { console.error(e); tbody.innerHTML = 'خطأ في التحميل'; }
         }
 
         document.getElementById('propForm').onsubmit = async function(e) {
             e.preventDefault();
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            
             const id = document.getElementById('editId').value;
             const files = document.getElementById('f_imgs').files;
             let imgList = [];
 
+            // تصغير كل الصور المرفوعة قبل الإرسال
             for (let f of files) {
-                const base64 = await new Promise(r => {
-                    const rd = new FileReader();
-                    rd.onload = e => r(e.target.result);
-                    rd.readAsDataURL(f);
-                });
-                imgList.push(base64);
+                const compressed = await compressImage(f);
+                imgList.push(compressed);
             }
 
             const data = {
@@ -180,11 +219,16 @@
             };
             if(imgList.length > 0) data.imgs = imgList;
 
-            if (id) await db.collection('properties').doc(id).update(data);
-            else await db.collection('properties').add(data);
-
-            cancelEdit();
-            loadData();
+            try {
+                if (id) await db.collection('properties').doc(id).update(data);
+                else await db.collection('properties').add(data);
+                cancelEdit();
+                await loadData();
+            } catch (err) {
+                alert("حدث خطأ أثناء الحفظ، تأكد من اتصالك بالإنترنت.");
+            } finally {
+                document.getElementById('loadingOverlay').style.display = 'none';
+            }
         };
 
         async function editItem(id) {
@@ -202,10 +246,11 @@
             window.scrollTo(0,0);
         }
 
-        async function deleteItem(id) { if(confirm("حذف؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
-        function cancelEdit() { document.getElementById('editId').value = ""; document.getElementById('propForm').reset(); document.getElementById('cancelBtn').style.display = "none"; }
+        async function deleteItem(id) { if(confirm("هل أنت متأكد من حذف هذا العقار؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
+        function cancelEdit() { document.getElementById('editId').value = ""; document.getElementById('propForm').reset(); document.getElementById('cancelBtn').style.display = "none"; document.getElementById('formTitle').innerText = "إضافة عقار جديد"; }
 
         loadData();
     </script>
+    <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 </body>
 </html>
