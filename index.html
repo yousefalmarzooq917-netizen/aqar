@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتب حي الفتح للعقار - النسخة الاحترافية</title>
+    <title>مكتب حي الفتح للعقار</title>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
     <style>
@@ -22,16 +22,22 @@
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
         th { background: var(--primary); color: white; padding: 18px 15px; text-align: right; }
         td { padding: 15px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
-        .img-gallery { display: flex; gap: 5px; flex-wrap: wrap; max-width: 180px; }
-        .prop-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; transition: 0.3s; }
-        .prop-img:hover { transform: scale(1.1); }
+        .img-gallery { display: flex; gap: 5px; flex-wrap: wrap; max-width: 120px; }
+        .prop-img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
         .price-tag { color: var(--primary); font-weight: bold; background: #e8f5e9; padding: 5px 10px; border-radius: 6px; }
-        .btn-wa-inline { background: #25D366; color: white; display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 6px; text-decoration: none; }
-        .btn-wa-inline svg { width: 22px; height: 22px; fill: white; margin-left: 5px; }
-        .wa-container { position: fixed; bottom: 25px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
-        .wa-floating { background: #25D366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; border: 2px solid white; }
-        .wa-floating svg { width: 32px; height: 32px; fill: white; }
+        .btn-action { background: var(--secondary); color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-family: 'Tajawal'; font-weight: bold; }
+        
+        /* Modal (Details Window) Styles */
+        .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
+        .modal-content { background-color: #fff; margin: 5% auto; padding: 20px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; max-height: 85vh; overflow-y: auto; }
+        .close-btn { color: #aaa; position: absolute; top: 15px; left: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-btn:hover { color: #000; }
+        .modal-images { display: flex; overflow-x: auto; gap: 10px; margin-top: 15px; padding-bottom: 10px; }
+        .modal-images img { height: 250px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd; }
+        
+        /* Loading Overlay */
         #loadingOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; justify-content:center; align-items:center; flex-direction:column; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -41,8 +47,11 @@
         <p>جاري معالجة الصور والحفظ...</p>
     </div>
 
-    <div class="wa-container">
-        <a href="https://wa.me/966505055056" class="wa-floating" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></a>
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeDetails()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
     </div>
 
     <header>
@@ -64,7 +73,7 @@
                     <input type="text" id="f_ownerName" class="private-field" placeholder="اسم المالك (خاص)" required>
                     <input type="text" id="f_ownerPhone" class="private-field" placeholder="رقم المالك (خاص)" required>
                     <div style="grid-column: 1 / -1;">
-                        <label style="display:block; margin-bottom:5px; font-size:13px; color:#666;">ارفع الصور (سيتم تصغيرها تلقائياً لجودة عالية وحجم صغير):</label>
+                        <label style="display:block; margin-bottom:5px; font-size:13px; color:#666;">ارفع الصور (يمكنك تحديد أكثر من صورة معاً):</label>
                         <input type="file" id="f_imgs" accept="image/*" multiple>
                     </div>
                 </div>
@@ -88,7 +97,7 @@
                         <th>النوع</th>
                         <th>الحي</th>
                         <th>السعر</th>
-                        <th>تواصل</th>
+                        <th>التفاصيل</th>
                         <th class="admin-only" style="display:none;">المالك</th>
                         <th class="admin-only" style="display:none;">إدارة</th>
                     </tr>
@@ -99,7 +108,7 @@
     </div>
 
     <script>
-        // --- بيانات Firebase الخاصة بك تم إضافتها هنا ---
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
             authDomain: "alfateh-aqar.firebaseapp.com",
@@ -108,12 +117,12 @@
             messagingSenderId: "170214550520",
             appId: "1:170214550520:web:638dfbc62ea5edc7cc040d"
         };
-        // ---------------------------------------
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         let isAdmin = false;
 
+        // Login System
         function toggleAdmin() {
             if (!isAdmin && prompt("كلمة مرور الموظفين:") === "123") {
                 isAdmin = true;
@@ -127,7 +136,7 @@
             loadData();
         }
 
-        // وظيفة تصغير الصور بجودة عالية
+        // Image Compressor (To allow multiple uploads without crashing)
         async function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -137,44 +146,44 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 800; // تصغير العرض لـ 800 بكسل كحد أقصى
+                        const MAX_WIDTH = 800;
                         let width = img.width;
                         let height = img.height;
-
-                        if (width > MAX_WIDTH) {
-                            height *= MAX_WIDTH / width;
-                            width = MAX_WIDTH;
-                        }
-
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
                         canvas.width = width;
                         canvas.height = height;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // تصدير الصورة بجودة 0.7 (متوازنة بين الحجم والجودة)
                         resolve(canvas.toDataURL('image/jpeg', 0.7));
                     };
                 };
             });
         }
 
+        // Load Properties Table
         async function loadData() {
             const queryText = document.getElementById('searchNeigh').value;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="8">جاري التحميل...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">جاري التحميل...</td></tr>';
 
             try {
                 const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
                 tbody.innerHTML = '';
-                
                 document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
 
                 snapshot.forEach(doc => {
                     const item = doc.data();
                     if (queryText && !item.neigh.includes(queryText)) return;
 
+                    // Show max 2 tiny thumbnails in the table to keep it clean
                     let gallery = '<div class="img-gallery">';
-                    (item.imgs || []).forEach(src => gallery += `<img src="${src}" class="prop-img" onclick="window.open('${src}')">`);
+                    let imgCount = item.imgs ? item.imgs.length : 0;
+                    if (imgCount > 0) {
+                        gallery += `<img src="${item.imgs[0]}" class="prop-img">`;
+                        if (imgCount > 1) gallery += `<span style="font-size:12px; color:gray; line-height:45px;">+${imgCount-1}</span>`;
+                    } else {
+                        gallery += '<span style="font-size:12px; color:gray;">لا توجد صور</span>';
+                    }
                     gallery += '</div>';
 
                     tbody.innerHTML += `
@@ -184,15 +193,50 @@
                             <td>${item.type}</td>
                             <td>${item.neigh}</td>
                             <td><span class="price-tag">${item.price}</span></td>
-                            <td><a href="https://wa.me/966590002216" class="btn-wa-inline"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>واتساب</a></td>
+                            <td><button class="btn-action" onclick="openDetails('${doc.id}')">التفاصيل</button></td>
                             ${isAdmin ? `<td style="background:#fffde7">${item.ownerName}<br>${item.ownerPhone}</td>
-                            <td><button onclick="editItem('${doc.id}')">تعديل</button> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white;">حذف</button></td>` : ''}
+                            <td><button onclick="editItem('${doc.id}')" style="margin-bottom:5px; width:100%;">تعديل</button> <br> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white; width:100%;">حذف</button></td>` : ''}
                         </tr>
                     `;
                 });
-            } catch (e) { console.error(e); tbody.innerHTML = 'خطأ في التحميل'; }
+            } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="8">حدث خطأ في التحميل</td></tr>'; }
         }
 
+        // Open Details Modal Window
+        async function openDetails(id) {
+            const doc = await db.collection('properties').doc(id).get();
+            const item = doc.data();
+            
+            let imagesHtml = '<div class="modal-images">';
+            if (item.imgs && item.imgs.length > 0) {
+                item.imgs.forEach(src => imagesHtml += `<img src="${src}">`);
+            } else {
+                imagesHtml += '<p>لا توجد صور مرفقة.</p>';
+            }
+            imagesHtml += '</div>';
+
+            const detailsHtml = `
+                <h2 style="color:var(--primary); margin-top:0;">${item.type} في ${item.neigh}</h2>
+                <hr style="border:0; border-top:1px solid #ddd; margin-bottom:15px;">
+                ${imagesHtml}
+                <div style="font-size:18px; line-height:1.8;">
+                    <p><strong>المساحة:</strong> ${item.area}</p>
+                    <p><strong>السعر:</strong> <span class="price-tag" style="font-size:20px;">${item.price}</span></p>
+                    <p><strong>تاريخ الإضافة:</strong> ${item.date}</p>
+                </div>
+                <br>
+                <a href="https://wa.me/966590002216?text=بخصوص العقار: ${item.type} في ${item.neigh}" target="_blank" style="background:#25D366; color:white; padding:12px 20px; text-decoration:none; border-radius:8px; display:inline-block; font-weight:bold; text-align:center; width:calc(100% - 40px);">تواصل معنا عبر واتساب</a>
+            `;
+            document.getElementById('modalBody').innerHTML = detailsHtml;
+            document.getElementById('detailsModal').style.display = 'block';
+        }
+
+        // Close Details Modal
+        function closeDetails() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+
+        // Save Form (Add or Update)
         document.getElementById('propForm').onsubmit = async function(e) {
             e.preventDefault();
             document.getElementById('loadingOverlay').style.display = 'flex';
@@ -201,7 +245,6 @@
             const files = document.getElementById('f_imgs').files;
             let imgList = [];
 
-            // تصغير كل الصور المرفوعة قبل الإرسال
             for (let f of files) {
                 const compressed = await compressImage(f);
                 imgList.push(compressed);
@@ -217,7 +260,9 @@
                 ownerName: document.getElementById('f_ownerName').value,
                 ownerPhone: document.getElementById('f_ownerPhone').value,
             };
-            if(imgList.length > 0) data.imgs = imgList;
+            
+            // Only update images if new ones are uploaded
+            if(imgList.length > 0) { data.imgs = imgList; }
 
             try {
                 if (id) await db.collection('properties').doc(id).update(data);
@@ -225,12 +270,13 @@
                 cancelEdit();
                 await loadData();
             } catch (err) {
-                alert("حدث خطأ أثناء الحفظ، تأكد من اتصالك بالإنترنت.");
+                alert("Error saving data. Make sure you have internet access.");
             } finally {
                 document.getElementById('loadingOverlay').style.display = 'none';
             }
         };
 
+        // Edit Button Logic
         async function editItem(id) {
             const doc = await db.collection('properties').doc(id).get();
             const item = doc.data();
@@ -246,11 +292,29 @@
             window.scrollTo(0,0);
         }
 
-        async function deleteItem(id) { if(confirm("هل أنت متأكد من حذف هذا العقار؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
-        function cancelEdit() { document.getElementById('editId').value = ""; document.getElementById('propForm').reset(); document.getElementById('cancelBtn').style.display = "none"; document.getElementById('formTitle').innerText = "إضافة عقار جديد"; }
+        // Delete Button Logic
+        async function deleteItem(id) { 
+            if(confirm("هل أنت متأكد من حذف هذا العقار؟")) { 
+                await db.collection('properties').doc(id).delete(); 
+                loadData(); 
+            } 
+        }
+
+        // Cancel Edit
+        function cancelEdit() { 
+            document.getElementById('editId').value = ""; 
+            document.getElementById('propForm').reset(); 
+            document.getElementById('cancelBtn').style.display = "none"; 
+            document.getElementById('formTitle').innerText = "إضافة عقار جديد"; 
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            let modal = document.getElementById('detailsModal');
+            if (event.target == modal) { modal.style.display = "none"; }
+        }
 
         loadData();
     </script>
-    <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
 </body>
 </html>
