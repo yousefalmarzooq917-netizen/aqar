@@ -22,9 +22,8 @@
         header { background: linear-gradient(135deg, var(--primary), #0a291a); color: white; padding: 40px 20px; position: relative; text-align: center; border-bottom: 5px solid var(--secondary); }
         .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--secondary); object-fit: cover; background: white; margin-bottom: 15px; }
         
-        /* شريط التنقل */
         .top-nav { position: absolute; top: 15px; left: 15px; display: flex; gap: 10px; flex-wrap: wrap; }
-        .nav-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-family: 'Almarai'; font-size: 14px; font-weight: bold; }
+        .nav-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-family: 'Almarai'; font-size: 14px; font-weight: bold; transition: 0.3s; }
         .nav-btn:hover { background: var(--secondary); color: black; }
 
         .container { width: 95%; max-width: 1250px; margin: 25px auto; }
@@ -44,27 +43,33 @@
         .stat-item { background: var(--primary); color: white; padding: 20px; border-radius: 15px; text-align: center; }
         .stat-item span { display: block; font-size: 30px; font-weight: 800; color: var(--secondary); }
 
-        /* الفلاتر والبحث */
-        .toolbar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center; }
-        .search-bar { flex: 1; padding: 18px; border-radius: 15px; border: 2px solid var(--border); font-size: 18px; font-family: 'Almarai'; background: var(--card-bg); color: var(--text); }
-        .filter-select { padding: 18px; border-radius: 15px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--card-bg); color: var(--text); }
+        /* الفلاتر والبحث المعدلة */
+        .toolbar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: 0 4px 10px var(--shadow); border: 1px solid var(--border); }
+        .search-bar { flex: 2; min-width: 250px; padding: 15px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--bg); color: var(--text); }
+        .filter-select { flex: 1; min-width: 150px; padding: 15px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--bg); color: var(--text); }
+        .view-icons { display: flex; gap: 8px; }
+        .view-btn { background: var(--primary); color: white; border: none; padding: 15px; font-size: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .view-btn:hover { background: var(--secondary); color: black; }
 
         /* نظام العرض */
         .prop-grid { display: grid; gap: 25px; transition: 0.3s; }
         .grid-view { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
         .list-view { grid-template-columns: 1fr; }
+        .list-view .prop-card { display: flex; flex-direction: row; align-items: center; }
+        .list-view .prop-img { width: 250px; height: 100%; object-fit: cover; }
+        @media (max-width: 768px) { .list-view .prop-card { flex-direction: column; } .list-view .prop-img { width: 100%; height: 200px; } }
 
         .prop-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); border: 1px solid var(--border); position: relative; }
-        .prop-img { width: 100%; height: 230px; object-fit: cover; pointer-events: none; } /* حماية مبدئية من الضغط */
+        .prop-img { width: 100%; height: 230px; object-fit: cover; pointer-events: none; }
         .status-tag { position: absolute; top: 15px; right: 15px; padding: 7px 15px; border-radius: 25px; color: white; font-weight: bold; font-size: 14px; z-index: 10; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
         .tag-avail { background: #27ae60; } .tag-sold { background: #c0392b; } .tag-arch { background: #7f8c8d; }
         .views-tag { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 10; display: flex; align-items: center; gap: 5px; }
 
-        .prop-details { padding: 20px; }
+        .prop-details { padding: 20px; flex: 1; }
         .price-text { font-size: 24px; font-weight: 800; color: var(--primary); margin: 10px 0; }
         [data-theme="dark"] .price-text { color: var(--secondary); }
 
-        /* تأثير التحميل (Skeleton) */
+        /* تأثير التحميل */
         .skeleton { background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); background-size: 200% 100%; animation: loadingAnim 1.5s infinite; border-radius: 10px; }
         [data-theme="dark"] .skeleton { background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%); }
         @keyframes loadingAnim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -82,7 +87,9 @@
         .backup-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); text-align: center; }
     </style>
 </head>
-<body data-theme="light" oncontextmenu="return false;"> <div id="loginModal">
+<body data-theme="light" oncontextmenu="return false;">
+
+    <div id="loginModal">
         <div class="login-box">
             <h2 style="color:var(--primary)">دخول الموظفين</h2>
             <input type="text" id="userInput" placeholder="اسم المستخدم" class="admin-input" style="margin-bottom:15px">
@@ -95,8 +102,6 @@
     <header>
         <div class="top-nav">
             <button class="nav-btn" onclick="toggleTheme()">🌙 ليلي</button>
-            <button class="nav-btn" onclick="setView('grid')">⬜ كروت</button>
-            <button class="nav-btn" onclick="setView('list')">☰ قائمة</button>
             <button class="nav-btn" onclick="window.open('https://maps.app.goo.gl/CYkchicmZwX2o9fe9')">📍 موقع مكتبنا</button>
             <button class="nav-btn" style="background:var(--secondary); color:black;" onclick="showLogin()" id="adminBtn">👤 الموظفين</button>
         </div>
@@ -117,7 +122,7 @@
             <form id="propForm">
                 <input type="hidden" id="editId">
                 <div class="admin-form-group">
-                    <div><label>نوع العقار</label><input type="text" id="f_type" class="admin-input" placeholder="فيلا، شقة.." required></div>
+                    <div><label>نوع العقار</label><input type="text" id="f_type" class="admin-input" placeholder="فيلا، شقة، أرض.." required></div>
                     <div><label>الحي</label><input type="text" id="f_neigh" class="admin-input" placeholder="اسم الحي" required></div>
                     <div><label>المساحة</label><input type="text" id="f_area" class="admin-input" placeholder="مثلاً: 300 م"></div>
                     <div><label>السعر (أرقام فقط)</label><input type="number" id="f_price" class="admin-input" placeholder="1200000" required></div>
@@ -143,23 +148,29 @@
             </form>
 
             <div class="backup-section">
-                <p>قسم الأمان والبيانات</p>
                 <button onclick="exportFullBackup()" style="background:#007bff; color:white; padding:15px 30px; border-radius:10px; border:none; cursor:pointer; font-weight:bold;">📥 تحميل نسخة احتياطية شاملة (JSON)</button>
             </div>
         </div>
 
         <div class="toolbar">
-            <input type="text" id="searchBox" class="search-bar" placeholder="🔍 ابحث عن حي أو نوع..." onkeyup="filterContent()">
-            <select id="filterStatus" class="filter-select" onchange="filterContent()">
-                <option value="الكل">كل الحالات</option>
-                <option value="متاح">متاح</option>
-                <option value="مباع">مباع</option>
-                <option value="محجوز">محجوز</option>
+            <input type="text" id="searchBox" class="search-bar" placeholder="🔍 ابحث عن حي..." onkeyup="filterContent()">
+            
+            <select id="filterType" class="filter-select" onchange="filterContent()">
+                <option value="الكل">كل العقارات</option>
+                <option value="فيلا">فلل</option>
+                <option value="شقة">شقق</option>
+                <option value="أرض">أراضي</option>
+                <option value="عمارة">عمارات</option>
+                <option value="مزرعة">مزارع</option>
             </select>
+
+            <div class="view-icons">
+                <button class="view-btn" onclick="setView('grid')" title="عرض كروت">⬜</button>
+                <button class="view-btn" onclick="setView('list')" title="عرض قائمة">☰</button>
+            </div>
         </div>
 
-        <div id="mainGrid" class="prop-grid grid-view">
-            </div>
+        <div id="mainGrid" class="prop-grid grid-view"></div>
     </div>
 
     <div id="detailsModal" style="display:none; position:fixed; z-index:4000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); overflow-y:auto;">
@@ -204,7 +215,6 @@
         function setView(v) { document.getElementById('mainGrid').className = 'prop-grid ' + (v==='grid'?'grid-view':'list-view'); }
         function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='light'?'dark':'light'); }
 
-        // عرض السكيليتون (الهياكل) أثناء التحميل
         function showSkeletons() {
             const grid = document.getElementById('mainGrid');
             grid.innerHTML = '';
@@ -214,7 +224,7 @@
                         <div class="skeleton" style="height:200px; margin-bottom:15px"></div>
                         <div class="skeleton" style="height:25px; width:60%; margin-bottom:10px"></div>
                         <div class="skeleton" style="height:20px; width:40%; margin-bottom:15px"></div>
-                        <div style="display:flex; gap:10px;"><div class="skeleton" style="height:40px; flex:1"></div><div class="skeleton" style="height:40px; flex:1"></div></div>
+                        <div style="display:flex; gap:10px;"><div class="skeleton" style="height:40px; flex:1"></div></div>
                     </div>`;
             }
         }
@@ -272,18 +282,16 @@
         async function openDetails(id) {
             const item = allData.find(i => i.id === id);
             
-            // تحديث عدد المشاهدات في فايربيس (اذا لم يكن الموظف هو من يشاهد)
             if(!isAdmin) {
                 await db.collection('properties').doc(id).update({ views: firebase.firestore.FieldValue.increment(1) });
-                item.views = (item.views || 0) + 1; // تحديث محلي
-                renderAll(); // تحديث العرض
+                item.views = (item.views || 0) + 1; 
+                renderAll(); 
             }
 
             let imgGallery = '<div style="display:flex; overflow-x:auto; gap:10px; margin-bottom:20px; padding-bottom:10px;">';
             (item.imgs || []).forEach(src => imgGallery += `<img src="${src}" style="height:250px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2); pointer-events:none;">`);
             imgGallery += '</div>';
 
-            // عزل بيانات المالك (لن تتم إضافتها لـ HTML الا للمشرف)
             let adminSec = '';
             if(isAdmin) {
                 adminSec = `<div style="background:#fffde7; padding:20px; border-radius:15px; margin:20px 0; color:black; border:1px dashed #d4af37;">
@@ -311,7 +319,6 @@
             document.getElementById('detailsModal').style.display = 'block';
         }
 
-        // ضغط وحماية الصور (إضافة Watermark)
         async function compressImg(file) {
             return new Promise(res => {
                 const reader = new FileReader();
@@ -327,12 +334,10 @@
                         canvas.height = img.height * (maxW / img.width);
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                         
-                        // إضافة الختم المائي (Watermark) لحماية الصورة
-                        ctx.fillStyle = "rgba(255, 255, 255, 0.4)"; // شفافية
+                        ctx.fillStyle = "rgba(255, 255, 255, 0.4)"; 
                         ctx.font = "bold 40px Almarai";
                         ctx.textAlign = "center";
                         ctx.textBaseline = "middle";
-                        // طباعة الاسم في منتصف الصورة
                         ctx.fillText("مكتب حي الفتح", canvas.width / 2, canvas.height / 2);
 
                         res(canvas.toDataURL('image/jpeg', 0.7));
@@ -360,7 +365,7 @@
                 date: new Date().toLocaleDateString('ar-SA'),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
-            if(!id) data.views = 0; // إضافة المشاهدات للعقار الجديد
+            if(!id) data.views = 0; 
             if(imgList.length > 0) data.imgs = imgList;
 
             if(id) await db.collection('properties').doc(id).update(data);
@@ -371,13 +376,16 @@
             loadData();
         };
 
+        // التصفية الجديدة (البحث النصي + نوع العقار)
         function filterContent() {
             const v = document.getElementById('searchBox').value.toLowerCase();
-            const stat = document.getElementById('filterStatus').value;
-            const filtered = allData.filter(i => 
-                (i.neigh.toLowerCase().includes(v) || i.type.toLowerCase().includes(v)) &&
-                (stat === 'الكل' || i.status === stat)
-            );
+            const typeFilter = document.getElementById('filterType').value;
+            
+            const filtered = allData.filter(i => {
+                const matchText = i.neigh.toLowerCase().includes(v) || i.type.toLowerCase().includes(v);
+                const matchType = (typeFilter === 'الكل') || i.type.includes(typeFilter);
+                return matchText && matchType;
+            });
             renderAll(filtered);
         }
 
@@ -389,7 +397,7 @@
             dl.click();
         }
 
-        function editItem(id) { /* الكود كما هو */ 
+        function editItem(id) { 
             const item = allData.find(i => i.id === id);
             document.getElementById('editId').value = item.id;
             document.getElementById('f_type').value = item.type;
@@ -402,6 +410,7 @@
             document.getElementById('f_phone').value = item.ownerPhone || '';
             window.scrollTo(0,0);
         }
+        
         async function deleteItem(id) { if(confirm("حذف نهائي؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
         function shareMe(t, n) { 
             const url = window.location.href;
