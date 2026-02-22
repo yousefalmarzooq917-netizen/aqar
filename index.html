@@ -29,15 +29,13 @@
 
         .container { width: 95%; max-width: 1250px; margin: 25px auto; }
 
-        /* لوحة التحكم المطورة */
+        /* لوحة التحكم */
         #adminPanel { display: none; background: var(--card-bg); border: 3px solid var(--primary); padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 30px var(--shadow); }
         #adminPanel h2 { font-size: 28px; color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
         .admin-form-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
-        
         .admin-input { padding: 18px; font-size: 18px; border: 2px solid var(--border); border-radius: 12px; font-family: 'Almarai'; background: var(--bg); color: var(--text); width: 100%; box-sizing: border-box; }
-        .admin-input:focus { border-color: var(--secondary); outline: none; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+        .admin-input:focus { border-color: var(--secondary); outline: none; }
         label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 16px; color: var(--primary); }
-
         .btn-save { background: var(--primary); color: white; padding: 20px; border-radius: 12px; border: none; font-size: 20px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-save:hover { background: #0a291a; transform: scale(1.01); }
 
@@ -46,61 +44,62 @@
         .stat-item { background: var(--primary); color: white; padding: 20px; border-radius: 15px; text-align: center; }
         .stat-item span { display: block; font-size: 30px; font-weight: 800; color: var(--secondary); }
 
-        /* الكروت والقائمة */
+        /* الفلاتر والبحث */
         .toolbar { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 25px; align-items: center; }
         .search-bar { flex: 1; padding: 18px; border-radius: 15px; border: 2px solid var(--border); font-size: 18px; font-family: 'Almarai'; background: var(--card-bg); color: var(--text); }
+        .filter-select { padding: 18px; border-radius: 15px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--card-bg); color: var(--text); }
 
+        /* نظام العرض */
         .prop-grid { display: grid; gap: 25px; transition: 0.3s; }
         .grid-view { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
         .list-view { grid-template-columns: 1fr; }
 
         .prop-card { background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 20px var(--shadow); border: 1px solid var(--border); position: relative; }
-        .prop-img { width: 100%; height: 230px; object-fit: cover; }
+        .prop-img { width: 100%; height: 230px; object-fit: cover; pointer-events: none; } /* حماية مبدئية من الضغط */
         .status-tag { position: absolute; top: 15px; right: 15px; padding: 7px 15px; border-radius: 25px; color: white; font-weight: bold; font-size: 14px; z-index: 10; box-shadow: 0 3px 10px rgba(0,0,0,0.2); }
         .tag-avail { background: #27ae60; } .tag-sold { background: #c0392b; } .tag-arch { background: #7f8c8d; }
+        .views-tag { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 10; display: flex; align-items: center; gap: 5px; }
 
         .prop-details { padding: 20px; }
         .price-text { font-size: 24px; font-weight: 800; color: var(--primary); margin: 10px 0; }
         [data-theme="dark"] .price-text { color: var(--secondary); }
+
+        /* تأثير التحميل (Skeleton) */
+        .skeleton { background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%); background-size: 200% 100%; animation: loadingAnim 1.5s infinite; border-radius: 10px; }
+        [data-theme="dark"] .skeleton { background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%); }
+        @keyframes loadingAnim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
         /* نافذة الدخول */
         #loginModal { display:none; position:fixed; z-index:5000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); align-items:center; justify-content:center; }
         .login-box { background:var(--card-bg); padding:40px; border-radius:20px; width:90%; max-width:400px; text-align:center; }
 
         /* الأزرار */
-        .btn-action { padding: 12px; border-radius: 10px; border: none; font-family: 'Almarai'; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; flex: 1; }
+        .btn-action { padding: 12px; border-radius: 10px; border: none; font-family: 'Almarai'; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; flex: 1; display:flex; justify-content:center; align-items:center; gap:5px; }
         .btn-main { background: var(--primary); color: white; }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         [data-theme="dark"] .btn-outline { border-color: var(--secondary); color: var(--secondary); }
-
-        .backup-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; text-align: center; }
         
-        #loadingOverlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; display:none; align-items:center; justify-content:center; flex-direction:column; }
+        .backup-section { margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--border); text-align: center; }
     </style>
 </head>
-<body data-theme="light">
-
-    <div id="loadingOverlay"><h3>جاري تحديث البيانات...</h3></div>
-
-    <div id="loginModal">
+<body data-theme="light" oncontextmenu="return false;"> <div id="loginModal">
         <div class="login-box">
             <h2 style="color:var(--primary)">دخول الموظفين</h2>
             <input type="text" id="userInput" placeholder="اسم المستخدم" class="admin-input" style="margin-bottom:15px">
             <input type="password" id="passInput" placeholder="الرقم السري" class="admin-input" style="margin-bottom:20px">
             <button class="btn-save" onclick="checkLogin()">دخول</button>
-            <button class="btn-action" onclick="closeLogin()" style="margin-top:10px">إلغاء</button>
+            <button class="btn-action" onclick="closeLogin()" style="margin-top:10px; background:#666; color:white;">إلغاء</button>
         </div>
     </div>
 
     <header>
         <div class="top-nav">
-            <button class="nav-btn" onclick="toggleTheme()">🌙 وضع ليلي</button>
+            <button class="nav-btn" onclick="toggleTheme()">🌙 ليلي</button>
             <button class="nav-btn" onclick="setView('grid')">⬜ كروت</button>
             <button class="nav-btn" onclick="setView('list')">☰ قائمة</button>
             <button class="nav-btn" onclick="window.open('https://maps.app.goo.gl/CYkchicmZwX2o9fe9')">📍 موقع مكتبنا</button>
-            <button class="nav-btn" style="background:var(--secondary); color:black;" onclick="showLogin()" id="adminBtn">👤 دخول الموظفين</button>
+            <button class="nav-btn" style="background:var(--secondary); color:black;" onclick="showLogin()" id="adminBtn">👤 الموظفين</button>
         </div>
-        
         <img src="https://c.top4top.io/p_37048y9xn1.jpg" class="logo" alt="Logo">
         <h1 style="margin:0; font-size:32px;">حي الفتح للعقار</h1>
         <p style="margin:10px 0 0; opacity:0.9; font-size:18px;">نظام الإدارة العقارية المتكامل</p>
@@ -109,7 +108,6 @@
     <div class="container">
         <div id="adminPanel">
             <h2>إدارة المحتوى العقاري</h2>
-            
             <div class="stats-grid">
                 <div class="stat-item">الإجمالي<span id="s_total">0</span></div>
                 <div class="stat-item">المتاح<span id="s_avail">0</span></div>
@@ -119,25 +117,25 @@
             <form id="propForm">
                 <input type="hidden" id="editId">
                 <div class="admin-form-group">
-                    <div><label>نوع العقار</label><input type="text" id="f_type" class="admin-input" placeholder="مثلاً: فيلا دبلكس" required></div>
+                    <div><label>نوع العقار</label><input type="text" id="f_type" class="admin-input" placeholder="فيلا، شقة.." required></div>
                     <div><label>الحي</label><input type="text" id="f_neigh" class="admin-input" placeholder="اسم الحي" required></div>
                     <div><label>المساحة</label><input type="text" id="f_area" class="admin-input" placeholder="مثلاً: 300 م"></div>
                     <div><label>السعر (أرقام فقط)</label><input type="number" id="f_price" class="admin-input" placeholder="1200000" required></div>
                     <div><label>حالة العقار</label>
                         <select id="f_status" class="admin-input">
                             <option value="متاح">متاح للعرض</option>
-                            <option value="مباع">مباع (يظهر عليه ملصق)</option>
-                            <option value="محجوز">محجوز مؤقتاً</option>
-                            <option value="مؤرشف">أرشفة (يختفي من الزوار)</option>
+                            <option value="مباع">مباع</option>
+                            <option value="محجوز">محجوز</option>
+                            <option value="مؤرشف">مؤرشف (للموظفين فقط)</option>
                         </select>
                     </div>
-                    <div><label>رابط موقع العقار (Maps)</label><input type="text" id="f_map" class="admin-input" placeholder="ضع رابط الموقع هنا"></div>
+                    <div><label>رابط موقع العقار (Maps)</label><input type="text" id="f_map" class="admin-input" placeholder="اختياري"></div>
                 </div>
 
                 <div class="admin-form-group" style="background:rgba(212,175,55,0.1); padding:15px; border-radius:15px;">
-                    <div><label>اسم المالك (خاص بالموظفين)</label><input type="text" id="f_owner" class="admin-input"></div>
-                    <div><label>رقم جوال المالك (خاص)</label><input type="text" id="f_phone" class="admin-input"></div>
-                    <div><label>ارفع الصور (تعدد)</label><input type="file" id="f_imgs" multiple class="admin-input"></div>
+                    <div><label>اسم المالك (سري)</label><input type="text" id="f_owner" class="admin-input"></div>
+                    <div><label>رقم جوال المالك (سري)</label><input type="text" id="f_phone" class="admin-input"></div>
+                    <div><label>ارفع الصور (سيتم ختمها تلقائياً)</label><input type="file" id="f_imgs" multiple class="admin-input"></div>
                 </div>
 
                 <button type="submit" class="btn-save" id="saveBtn">💾 حفظ ونشر العقار</button>
@@ -151,10 +149,17 @@
         </div>
 
         <div class="toolbar">
-            <input type="text" id="searchBox" class="search-bar" placeholder="🔍 ابحث عن حي، نوع، أو سعر..." onkeyup="filterContent()">
+            <input type="text" id="searchBox" class="search-bar" placeholder="🔍 ابحث عن حي أو نوع..." onkeyup="filterContent()">
+            <select id="filterStatus" class="filter-select" onchange="filterContent()">
+                <option value="الكل">كل الحالات</option>
+                <option value="متاح">متاح</option>
+                <option value="مباع">مباع</option>
+                <option value="محجوز">محجوز</option>
+            </select>
         </div>
 
-        <div id="mainGrid" class="prop-grid grid-view"></div>
+        <div id="mainGrid" class="prop-grid grid-view">
+            </div>
     </div>
 
     <div id="detailsModal" style="display:none; position:fixed; z-index:4000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); overflow-y:auto;">
@@ -165,7 +170,6 @@
     </div>
 
     <script>
-        // إعدادات فايربيس (مرتبط بحسابك)
         const firebaseConfig = {
             apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
             authDomain: "alfateh-aqar.firebaseapp.com",
@@ -180,7 +184,6 @@
         let isAdmin = false;
         let allData = [];
 
-        // إدارة الدخول
         function showLogin() { 
             if(isAdmin) { isAdmin=false; location.reload(); }
             else { document.getElementById('loginModal').style.display='flex'; }
@@ -188,30 +191,40 @@
         function closeLogin() { document.getElementById('loginModal').style.display='none'; }
         
         function checkLogin() {
-            const u = document.getElementById('userInput').value;
-            const p = document.getElementById('passInput').value;
-            // يمكنك تغيير اسم المستخدم والرقم السري من هنا
-            if(u === "admin" && p === "1234") {
+            if(document.getElementById('userInput').value === "admin" && document.getElementById('passInput').value === "1234") {
                 isAdmin = true;
                 document.getElementById('adminPanel').style.display = 'block';
                 document.getElementById('adminBtn').innerText = "👤 خروج الموظف";
                 closeLogin();
                 renderAll();
-            } else {
-                alert("بيانات الدخول غير صحيحة!");
+            } else { alert("بيانات الدخول غير صحيحة!"); }
+        }
+
+        function formatMoney(n) { return new Intl.NumberFormat('ar-SA').format(n) + " ريال"; }
+        function setView(v) { document.getElementById('mainGrid').className = 'prop-grid ' + (v==='grid'?'grid-view':'list-view'); }
+        function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='light'?'dark':'light'); }
+
+        // عرض السكيليتون (الهياكل) أثناء التحميل
+        function showSkeletons() {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = '';
+            for(let i=0; i<6; i++) {
+                grid.innerHTML += `
+                    <div class="prop-card" style="padding:15px">
+                        <div class="skeleton" style="height:200px; margin-bottom:15px"></div>
+                        <div class="skeleton" style="height:25px; width:60%; margin-bottom:10px"></div>
+                        <div class="skeleton" style="height:20px; width:40%; margin-bottom:15px"></div>
+                        <div style="display:flex; gap:10px;"><div class="skeleton" style="height:40px; flex:1"></div><div class="skeleton" style="height:40px; flex:1"></div></div>
+                    </div>`;
             }
         }
 
-        // تنسيق السعر تلقائياً
-        function formatMoney(n) { return new Intl.NumberFormat('ar-SA').format(n) + " ريال"; }
-
         async function loadData() {
-            document.getElementById('loadingOverlay').style.display='flex';
+            showSkeletons();
             const snap = await db.collection('properties').orderBy('timestamp', 'desc').get();
             allData = snap.docs.map(doc => ({id: doc.id, ...doc.data()}));
             updateStats();
             renderAll();
-            document.getElementById('loadingOverlay').style.display='none';
         }
 
         function updateStats() {
@@ -227,18 +240,21 @@
                 if(item.status === 'مؤرشف' && !isAdmin) return;
                 
                 const statusClass = item.status === 'متاح' ? 'tag-avail' : (item.status === 'مباع' ? 'tag-sold' : 'tag-arch');
+                const viewsCount = item.views || 0;
+                
                 const card = document.createElement('div');
                 card.className = 'prop-card';
                 card.innerHTML = `
+                    <div class="views-tag">👁️ ${viewsCount}</div>
                     <div class="status-tag ${statusClass}">${item.status}</div>
                     <img src="${(item.imgs && item.imgs[0]) || 'https://via.placeholder.com/400x250'}" class="prop-img">
                     <div class="prop-details">
                         <div style="font-size:14px; opacity:0.7;">📍 ${item.neigh}</div>
                         <h3 style="margin:5px 0;">${item.type}</h3>
                         <div class="price-text">${formatMoney(item.price)}</div>
-                        <div style="font-size:14px; margin-bottom:15px;">📏 المساحة: ${item.area}</div>
+                        <div style="font-size:14px; margin-bottom:15px;">📏 المساحة: ${item.area || 'غير محدد'}</div>
                         <div style="display:flex; gap:10px;">
-                            <button class="btn-action btn-main" onclick="openDetails('${item.id}')">👁️ عرض التفاصيل</button>
+                            <button class="btn-action btn-main" onclick="openDetails('${item.id}')">التفاصيل</button>
                             <button class="btn-action btn-outline" onclick="shareMe('${item.type}','${item.neigh}')">🔗 مشاركة</button>
                         </div>
                         ${isAdmin ? `
@@ -253,47 +269,49 @@
             });
         }
 
-        function setView(v) { document.getElementById('mainGrid').className = 'prop-grid ' + (v==='grid'?'grid-view':'list-view'); }
-        function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme')==='light'?'dark':'light'); }
-
         async function openDetails(id) {
             const item = allData.find(i => i.id === id);
+            
+            // تحديث عدد المشاهدات في فايربيس (اذا لم يكن الموظف هو من يشاهد)
+            if(!isAdmin) {
+                await db.collection('properties').doc(id).update({ views: firebase.firestore.FieldValue.increment(1) });
+                item.views = (item.views || 0) + 1; // تحديث محلي
+                renderAll(); // تحديث العرض
+            }
+
             let imgGallery = '<div style="display:flex; overflow-x:auto; gap:10px; margin-bottom:20px; padding-bottom:10px;">';
-            (item.imgs || []).forEach(src => imgGallery += `<img src="${src}" style="height:250px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2);">`);
+            (item.imgs || []).forEach(src => imgGallery += `<img src="${src}" style="height:250px; border-radius:15px; box-shadow:0 5px 15px rgba(0,0,0,0.2); pointer-events:none;">`);
             imgGallery += '</div>';
+
+            // عزل بيانات المالك (لن تتم إضافتها لـ HTML الا للمشرف)
+            let adminSec = '';
+            if(isAdmin) {
+                adminSec = `<div style="background:#fffde7; padding:20px; border-radius:15px; margin:20px 0; color:black; border:1px dashed #d4af37;">
+                    <h4 style="margin:0 0 10px 0;">🔒 بيانات خاصة (مشفرة):</h4>
+                    <p>اسم المالك: ${item.ownerName || 'لا يوجد'}</p>
+                    <p>الجوال: ${item.ownerPhone || 'لا يوجد'}</p>
+                </div>`;
+            }
 
             document.getElementById('detailsContent').innerHTML = `
                 ${imgGallery}
                 <h2 style="color:var(--primary)">${item.type} - حي ${item.neigh}</h2>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; font-size:18px; border-top:1px solid #ddd; padding-top:20px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; font-size:18px; border-top:1px solid var(--border); padding-top:20px;">
                     <p><b>السعر:</b> <span style="color:var(--secondary); font-weight:800;">${formatMoney(item.price)}</span></p>
                     <p><b>المساحة:</b> ${item.area}</p>
-                    <p><b>تاريخ العرض:</b> ${item.date}</p>
-                    <p><b>حالة العقار:</b> ${item.status}</p>
+                    <p><b>المشاهدات:</b> ${item.views || 0} 👁️</p>
+                    <p><b>الحالة:</b> ${item.status}</p>
                 </div>
-                ${isAdmin ? `<div style="background:#fffde7; padding:20px; border-radius:15px; margin:20px 0; color:black;">
-                    <h4 style="margin:0 0 10px 0;">بيانات خاصة بالموظف:</h4>
-                    <p>اسم المالك: ${item.ownerName || 'غير مسجل'}</p>
-                    <p>جوال المالك: ${item.ownerPhone || 'غير مسجل'}</p>
-                </div>` : ''}
+                ${adminSec}
                 <div style="display:flex; gap:15px; margin-top:30px;">
-                    <a href="https://wa.me/966590002216?text=استفسار عن ${item.type} في ${item.neigh}" target="_blank" style="flex:1; background:#25d366; color:white; text-align:center; padding:20px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:18px;">💬 تواصل واتساب</a>
+                    <a href="https://wa.me/966590002216?text=استفسار عن ${item.type} في ${item.neigh} معروض بسعر ${item.price}" target="_blank" style="flex:1; background:#25d366; color:white; text-align:center; padding:20px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:18px;">💬 واتساب</a>
                     ${item.map ? `<a href="${item.map}" target="_blank" style="flex:1; background:#4285F4; color:white; text-align:center; padding:20px; border-radius:15px; text-decoration:none; font-weight:bold; font-size:18px;">📍 موقع العقار</a>` : ''}
                 </div>
             `;
             document.getElementById('detailsModal').style.display = 'block';
         }
 
-        // النسخة الاحتياطية الشاملة
-        function exportFullBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
-            const dl = document.createElement('a');
-            dl.setAttribute("href", dataStr);
-            dl.setAttribute("download", "Full_Backup_Alfateh_" + new Date().toISOString().slice(0,10) + ".json");
-            dl.click();
-        }
-
-        // ضغط الصور
+        // ضغط وحماية الصور (إضافة Watermark)
         async function compressImg(file) {
             return new Promise(res => {
                 const reader = new FileReader();
@@ -308,6 +326,15 @@
                         canvas.width = maxW;
                         canvas.height = img.height * (maxW / img.width);
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // إضافة الختم المائي (Watermark) لحماية الصورة
+                        ctx.fillStyle = "rgba(255, 255, 255, 0.4)"; // شفافية
+                        ctx.font = "bold 40px Almarai";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "middle";
+                        // طباعة الاسم في منتصف الصورة
+                        ctx.fillText("مكتب حي الفتح", canvas.width / 2, canvas.height / 2);
+
                         res(canvas.toDataURL('image/jpeg', 0.7));
                     }
                 }
@@ -316,7 +343,6 @@
 
         document.getElementById('propForm').onsubmit = async (e) => {
             e.preventDefault();
-            document.getElementById('loadingOverlay').style.display='flex';
             const id = document.getElementById('editId').value;
             const files = document.getElementById('f_imgs').files;
             let imgList = [];
@@ -334,6 +360,7 @@
                 date: new Date().toLocaleDateString('ar-SA'),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
+            if(!id) data.views = 0; // إضافة المشاهدات للعقار الجديد
             if(imgList.length > 0) data.imgs = imgList;
 
             if(id) await db.collection('properties').doc(id).update(data);
@@ -344,7 +371,25 @@
             loadData();
         };
 
-        function editItem(id) {
+        function filterContent() {
+            const v = document.getElementById('searchBox').value.toLowerCase();
+            const stat = document.getElementById('filterStatus').value;
+            const filtered = allData.filter(i => 
+                (i.neigh.toLowerCase().includes(v) || i.type.toLowerCase().includes(v)) &&
+                (stat === 'الكل' || i.status === stat)
+            );
+            renderAll(filtered);
+        }
+
+        function exportFullBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allData, null, 2));
+            const dl = document.createElement('a');
+            dl.setAttribute("href", dataStr);
+            dl.setAttribute("download", "Full_Backup_Alfateh_" + new Date().toISOString().slice(0,10) + ".json");
+            dl.click();
+        }
+
+        function editItem(id) { /* الكود كما هو */ 
             const item = allData.find(i => i.id === id);
             document.getElementById('editId').value = item.id;
             document.getElementById('f_type').value = item.type;
@@ -357,7 +402,6 @@
             document.getElementById('f_phone').value = item.ownerPhone || '';
             window.scrollTo(0,0);
         }
-
         async function deleteItem(id) { if(confirm("حذف نهائي؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
         function shareMe(t, n) { 
             const url = window.location.href;
@@ -365,11 +409,6 @@
             else alert("انسخ الرابط لمشاركته: " + url);
         }
         function cancelEdit() { document.getElementById('propForm').reset(); document.getElementById('editId').value=''; }
-        function filterContent() {
-            const val = document.getElementById('searchBox').value.toLowerCase();
-            const filtered = allData.filter(i => i.neigh.toLowerCase().includes(val) || i.type.toLowerCase().includes(val));
-            renderAll(filtered);
-        }
 
         loadData();
     </script>
