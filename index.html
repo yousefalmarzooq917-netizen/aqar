@@ -11,17 +11,14 @@
         :root { --primary: #113f28; --secondary: #d4af37; --bg: #f4f6f9; --text: #333; }
         body { font-family: 'Tajawal', sans-serif; margin: 0; background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
         
-        /* تعديلات الهيدر والشعار */
         header { background: linear-gradient(135deg, var(--primary), #1a5c3a); color: white; padding: 20px; position: relative; border-bottom: 4px solid var(--secondary); display: flex; flex-direction: column; align-items: center; }
         .header-content { display: flex; align-items: center; gap: 15px; margin-top: 30px; }
         .logo { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--secondary); object-fit: cover; background: white; }
         header h1 { margin: 0; font-size: 24px; }
         header p { margin: 5px 0 0; opacity: 0.8; font-size: 14px; }
 
-        /* أزرار التحكم العلوية */
         .top-buttons { position: absolute; top: 15px; left: 15px; display: flex; gap: 10px; }
-        .control-btn { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; font-family: 'Tajawal'; transition: 0.3s; }
-        .control-btn:hover { background: var(--secondary); color: var(--primary); }
+        .control-btn { background: transparent; border: 1px solid var(--secondary); color: var(--secondary); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; font-family: 'Tajawal'; }
         .home-btn { background: rgba(255,255,255,0.1); border: none; color: white; }
         
         .container { width: 95%; max-width: 1200px; margin: 30px auto; }
@@ -29,7 +26,7 @@
         #adminPanel { display: none; border: 2px solid var(--secondary); background: #faf8f0; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         input, select, button { padding: 14px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Tajawal'; outline: none; }
-        .private-field { border-color: #ff9800; background: #fffde7; }
+        
         .table-wrapper { background: white; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; }
         th { background: var(--primary); color: white; padding: 18px 15px; text-align: right; }
@@ -38,26 +35,32 @@
         .prop-img { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd; }
         .price-tag { color: var(--primary); font-weight: bold; background: #e8f5e9; padding: 5px 10px; border-radius: 6px; }
         .btn-action { background: var(--secondary); color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-family: 'Tajawal'; font-weight: bold; }
+
+        /* زر الواتساب العائم */
+        .wa-floating { position: fixed; bottom: 25px; right: 25px; background: #25D366; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 9999; text-decoration: none; border: 2px solid white; transition: 0.3s; }
+        .wa-floating:hover { transform: scale(1.1); }
+        .wa-floating svg { width: 35px; height: 35px; fill: white; }
         
-        /* نافذة التفاصيل المنبثقة */
+        /* نافذة التفاصيل */
         .modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); overflow-y: auto; }
-        .modal-content { background-color: #fff; margin: 5vh auto; padding: 25px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .close-btn { color: #aaa; position: absolute; top: 15px; left: 20px; font-size: 35px; font-weight: bold; cursor: pointer; line-height: 1; }
-        .close-btn:hover { color: var(--primary); }
-        .modal-images { display: flex; overflow-x: auto; gap: 10px; margin: 20px 0; padding-bottom: 15px; scrollbar-width: thin; }
+        .modal-content { background-color: #fff; margin: 5vh auto; padding: 25px; border-radius: 12px; width: 90%; max-width: 600px; position: relative; }
+        .close-btn { color: #aaa; position: absolute; top: 15px; left: 20px; font-size: 35px; font-weight: bold; cursor: pointer; }
+        .modal-images { display: flex; overflow-x: auto; gap: 10px; margin: 20px 0; padding-bottom: 15px; }
         .modal-images img { height: 220px; border-radius: 8px; object-fit: cover; border: 1px solid #ddd; flex-shrink: 0; }
-        .modal-details-list p { margin: 10px 0; border-bottom: 1px solid #eee; padding-bottom: 10px; display: flex; justify-content: space-between; }
-        .modal-details-list strong { color: var(--primary); }
         
-        #loadingOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999; justify-content:center; align-items:center; flex-direction:column; }
+        #loadingOverlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:10001; justify-content:center; align-items:center; flex-direction:column; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
+    <a href="https://wa.me/966590002216" class="wa-floating" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    </a>
+
     <div id="loadingOverlay">
         <div style="border:5px solid #f3f3f3; border-top:5px solid var(--primary); border-radius:50%; width:50px; height:50px; animation: spin 1s linear infinite;"></div>
-        <p>جاري معالجة الصور والحفظ...</p>
+        <p>جاري المعالجة...</p>
     </div>
 
     <div id="detailsModal" class="modal">
@@ -72,9 +75,8 @@
             <button type="button" class="control-btn home-btn" onclick="goHome()">🏠 الرئيسية</button>
             <button type="button" class="control-btn" onclick="toggleAdmin()" id="loginBtn">👤 دخول الموظفين</button>
         </div>
-        
         <div class="header-content">
-            <img src="https://c.top4top.io/p_37048y9xn1.jpg" alt="شعار المكتب" class="logo" id="shopLogo">
+            <img src="https://c.top4top.io/p_37048y9xn1.jpg" alt="شعار المكتب" class="logo">
             <div>
                 <h1>حي الفتح للعقار</h1>
                 <p>نظام إدراج العقارات الذكي</p>
@@ -92,16 +94,15 @@
                     <input type="text" id="f_neigh" placeholder="اسم الحي" required>
                     <input type="text" id="f_area" placeholder="المساحة" required>
                     <input type="text" id="f_price" placeholder="السعر" required>
-                    <input type="text" id="f_ownerName" class="private-field" placeholder="اسم المالك (خاص)" required>
-                    <input type="text" id="f_ownerPhone" class="private-field" placeholder="رقم المالك (خاص)" required>
+                    <input type="text" id="f_ownerName" style="border-color:#ff9800; background:#fffde7;" placeholder="اسم المالك (خاص)" required>
+                    <input type="text" id="f_ownerPhone" style="border-color:#ff9800; background:#fffde7;" placeholder="رقم المالك (خاص)" required>
                     <div style="grid-column: 1 / -1;">
-                        <label style="display:block; margin-bottom:5px; font-size:13px; color:#666;">ارفع الصور (يمكنك تحديد أكثر من صورة معاً):</label>
                         <input type="file" id="f_imgs" accept="image/*" multiple>
                     </div>
                 </div>
                 <div style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button type="submit" id="saveBtn" style="background:var(--primary); color:white; flex:1; cursor:pointer;">حفظ في السحابة</button>
-                    <button type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666; color:white; cursor:pointer;">إلغاء</button>
+                    <button type="submit" style="background:var(--primary); color:white; flex:1; cursor:pointer;">حفظ في السحابة</button>
+                    <button type="button" onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#666; color:white;">إلغاء</button>
                 </div>
             </form>
         </div>
@@ -130,7 +131,6 @@
     </div>
 
     <script>
-        // بيانات فايربيس (مضافة مسبقاً)
         const firebaseConfig = {
             apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
             authDomain: "alfateh-aqar.firebaseapp.com",
@@ -139,18 +139,11 @@
             messagingSenderId: "170214550520",
             appId: "1:170214550520:web:638dfbc62ea5edc7cc040d"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         let isAdmin = false;
 
-        // وظيفة زر الرئيسية
-        function goHome() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.getElementById('searchNeigh').value = '';
-            loadData();
-        }
-
+        function goHome() { window.scrollTo({ top: 0, behavior: 'smooth' }); document.getElementById('searchNeigh').value = ''; loadData(); }
         function toggleAdmin() {
             if (!isAdmin && prompt("كلمة مرور الموظفين:") === "123") {
                 isAdmin = true;
@@ -168,19 +161,16 @@
             return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = (event) => {
+                reader.onload = (e) => {
                     const img = new Image();
-                    img.src = event.target.result;
+                    img.src = e.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
                         const MAX_WIDTH = 800;
-                        let width = img.width;
-                        let height = img.height;
+                        let width = img.width, height = img.height;
                         if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
+                        canvas.width = width; canvas.height = height;
+                        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
                         resolve(canvas.toDataURL('image/jpeg', 0.7));
                     };
                 };
@@ -188,29 +178,17 @@
         }
 
         async function loadData() {
-            const queryText = document.getElementById('searchNeigh').value;
+            const query = document.getElementById('searchNeigh').value;
             const tbody = document.getElementById('tableBody');
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">جاري التحميل...</td></tr>';
-
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">جاري التحميل...</td></tr>';
             try {
                 const snapshot = await db.collection('properties').orderBy('timestamp', 'desc').get();
                 tbody.innerHTML = '';
                 document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'table-cell' : 'none');
-
                 snapshot.forEach(doc => {
                     const item = doc.data();
-                    if (queryText && !item.neigh.includes(queryText)) return;
-
-                    let gallery = '<div class="img-gallery">';
-                    let imgCount = item.imgs ? item.imgs.length : 0;
-                    if (imgCount > 0) {
-                        gallery += `<img src="${item.imgs[0]}" class="prop-img">`;
-                        if (imgCount > 1) gallery += `<span style="font-size:12px; color:gray; line-height:45px;">+${imgCount-1}</span>`;
-                    } else {
-                        gallery += '<span style="font-size:12px; color:gray;">بدون صور</span>';
-                    }
-                    gallery += '</div>';
-
+                    if (query && !item.neigh.includes(query)) return;
+                    let gallery = `<div class="img-gallery"><img src="${item.imgs ? item.imgs[0] : ''}" class="prop-img"> ${item.imgs && item.imgs.length > 1 ? '<span style="font-size:12px;color:gray;">+'+(item.imgs.length-1)+'</span>' : ''}</div>`;
                     tbody.innerHTML += `
                         <tr>
                             <td>${item.date}</td>
@@ -219,74 +197,38 @@
                             <td>${item.neigh}</td>
                             <td><span class="price-tag">${item.price}</span></td>
                             <td><button class="btn-action" onclick="openDetails('${doc.id}')">👁️ عرض</button></td>
-                            ${isAdmin ? `<td style="background:#fffde7; font-size:0.9em;">${item.ownerName}<br>${item.ownerPhone}</td>
-                            <td><button onclick="editItem('${doc.id}')" style="margin-bottom:5px; width:100%; font-size:12px;">تعديل</button> <br> <button onclick="deleteItem('${doc.id}')" style="background:#ff4444; color:white; width:100%; font-size:12px;">حذف</button></td>` : ''}
-                        </tr>
-                    `;
+                            ${isAdmin ? `<td style="background:#fffde7;">${item.ownerName}<br>${item.ownerPhone}</td><td><button onclick="editItem('${doc.id}')">تعديل</button> <button onclick="deleteItem('${doc.id}')" style="background:red;color:white;">حذف</button></td>` : ''}
+                        </tr>`;
                 });
-                if (tbody.innerHTML === '') {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding: 20px;">لا توجد عقارات مطابقة للبحث.</td></tr>';
-                }
-            } catch (e) { console.error(e); tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:red;">حدث خطأ في التحميل، تأكد من الإنترنت.</td></tr>'; }
+            } catch (e) { tbody.innerHTML = 'خطأ في التحميل'; }
         }
 
-        // وظيفة فتح نافذة التفاصيل
         async function openDetails(id) {
             document.getElementById('loadingOverlay').style.display = 'flex';
-            try {
-                const doc = await db.collection('properties').doc(id).get();
-                const item = doc.data();
-                
-                let imagesHtml = '<div class="modal-images">';
-                if (item.imgs && item.imgs.length > 0) {
-                    item.imgs.forEach(src => imagesHtml += `<img src="${src}" onclick="window.open('${src}')" style="cursor:zoom-in;">`);
-                } else {
-                    imagesHtml += '<p style="text-align:center; width:100%; color:gray;">لا توجد صور مرفقة لهذا العقار.</p>';
-                }
-                imagesHtml += '</div>';
-
-                const detailsHtml = `
-                    <h2 style="color:var(--primary); margin-top:0; text-align:center;">${item.type} في ${item.neigh}</h2>
-                    <hr style="border:0; border-top:1px solid #ddd; margin-bottom:15px;">
-                    <p style="text-align:center; font-size:14px; color:#666;">(اضغط على الصورة لتكبيرها)</p>
-                    ${imagesHtml}
-                    <div class="modal-details-list" style="font-size:16px;">
-                        <p><strong>المساحة:</strong> <span>${item.area}</span></p>
-                        <p><strong>السعر:</strong> <span class="price-tag" style="font-size:18px;">${item.price}</span></p>
-                        <p><strong>تاريخ الإضافة:</strong> <span>${item.date}</span></p>
-                    </div>
-                    <br>
-                    <a href="https://wa.me/966590002216?text=السلام عليكم، أستفسر عن العقار: ${item.type} في حي ${item.neigh} المعروض بسعر ${item.price}" target="_blank" style="background:#25D366; color:white; padding:15px; text-decoration:none; border-radius:8px; display:block; font-weight:bold; text-align:center; font-size:18px;">
-                        <svg style="width:24px;height:24px;vertical-align:middle;margin-left:10px;" viewBox="0 0 24 24"><path fill="white" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.06-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.82 9.82 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                        تواصل واحجز الآن
-                    </a>
-                `;
-                document.getElementById('modalBody').innerHTML = detailsHtml;
-                document.getElementById('detailsModal').style.display = 'block';
-            } catch (err) {
-                alert("تعذر تحميل التفاصيل، يرجى المحاولة مرة أخرى.");
-            } finally {
-                document.getElementById('loadingOverlay').style.display = 'none';
-            }
+            const doc = await db.collection('properties').doc(id).get();
+            const item = doc.data();
+            let imgs = '<div class="modal-images">';
+            (item.imgs || []).forEach(src => imgs += `<img src="${src}" onclick="window.open('${src}')">`);
+            imgs += '</div>';
+            document.getElementById('modalBody').innerHTML = `
+                <h2 style="text-align:center;color:var(--primary)">${item.type} - حي ${item.neigh}</h2>
+                ${imgs}
+                <p><strong>المساحة:</strong> ${item.area}</p>
+                <p><strong>السعر:</strong> <span class="price-tag">${item.price}</span></p>
+                <a href="https://wa.me/966590002216?text=أستفسر عن ${item.type} في حي ${item.neigh}" target="_blank" style="background:#25D366; color:white; padding:15px; text-decoration:none; border-radius:8px; display:block; text-align:center; font-weight:bold;">تواصل الآن عبر الواتساب</a>`;
+            document.getElementById('detailsModal').style.display = 'block';
+            document.getElementById('loadingOverlay').style.display = 'none';
         }
 
-        function closeDetails() {
-            document.getElementById('detailsModal').style.display = 'none';
-        }
+        function closeDetails() { document.getElementById('detailsModal').style.display = 'none'; }
 
         document.getElementById('propForm').onsubmit = async function(e) {
             e.preventDefault();
             document.getElementById('loadingOverlay').style.display = 'flex';
-            
             const id = document.getElementById('editId').value;
             const files = document.getElementById('f_imgs').files;
             let imgList = [];
-
-            for (let f of files) {
-                const compressed = await compressImage(f);
-                imgList.push(compressed);
-            }
-
+            for (let f of files) { imgList.push(await compressImage(f)); }
             const data = {
                 date: new Date().toLocaleDateString('en-GB'),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -297,19 +239,11 @@
                 ownerName: document.getElementById('f_ownerName').value,
                 ownerPhone: document.getElementById('f_ownerPhone').value,
             };
-            
-            if(imgList.length > 0) { data.imgs = imgList; }
-
-            try {
-                if (id) await db.collection('properties').doc(id).update(data);
-                else await db.collection('properties').add(data);
-                cancelEdit();
-                await loadData();
-            } catch (err) {
-                alert("حدث خطأ أثناء الحفظ، تأكد من اتصالك بالإنترنت.");
-            } finally {
-                document.getElementById('loadingOverlay').style.display = 'none';
-            }
+            if(imgList.length > 0) data.imgs = imgList;
+            if (id) await db.collection('properties').doc(id).update(data);
+            else await db.collection('properties').add(data);
+            cancelEdit(); loadData();
+            document.getElementById('loadingOverlay').style.display = 'none';
         };
 
         async function editItem(id) {
@@ -322,32 +256,13 @@
             document.getElementById('f_price').value = item.price;
             document.getElementById('f_ownerName').value = item.ownerName;
             document.getElementById('f_ownerPhone').value = item.ownerPhone;
-            document.getElementById('formTitle').innerText = "تعديل البيانات";
             document.getElementById('cancelBtn').style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo(0,0);
         }
 
-        async function deleteItem(id) { 
-            if(confirm("هل أنت متأكد من حذف هذا العقار نهائياً؟")) { 
-                document.getElementById('loadingOverlay').style.display = 'flex';
-                await db.collection('properties').doc(id).delete(); 
-                loadData(); 
-                document.getElementById('loadingOverlay').style.display = 'none';
-            } 
-        }
-
-        function cancelEdit() { 
-            document.getElementById('editId').value = ""; 
-            document.getElementById('propForm').reset(); 
-            document.getElementById('cancelBtn').style.display = "none"; 
-            document.getElementById('formTitle').innerText = "إضافة عقار جديد"; 
-        }
-
-        window.onclick = function(event) {
-            let modal = document.getElementById('detailsModal');
-            if (event.target == modal) { modal.style.display = "none"; }
-        }
-
+        async function deleteItem(id) { if(confirm("حذف نهائي؟")) { await db.collection('properties').doc(id).delete(); loadData(); } }
+        function cancelEdit() { document.getElementById('editId').value = ""; document.getElementById('propForm').reset(); document.getElementById('cancelBtn').style.display = "none"; }
+        window.onclick = (e) => { if(e.target == document.getElementById('detailsModal')) closeDetails(); }
         loadData();
     </script>
 </body>
