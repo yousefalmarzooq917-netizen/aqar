@@ -40,18 +40,54 @@
         .btn-save { background: var(--primary); color: white; padding: 18px; border-radius: 12px; border: none; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px; }
         .btn-save:hover { background: #0a291a; transform: translateY(-2px); }
 
-        /* إحصائيات الموظفين - نقلناها للأسفل */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--border); }
         .stat-item { background: var(--bg); border: 1px solid var(--border); padding: 20px; border-radius: 15px; text-align: center; }
         .stat-item span { display: block; font-size: 28px; font-weight: 800; color: var(--primary); margin-top: 5px; }
 
-        /* الفلاتر والبحث المتناسقة (Symmetrical) */
-        .toolbar { display: flex; gap: 15px; margin-bottom: 25px; align-items: center; background: var(--card-bg); padding: 15px; border-radius: 15px; box-shadow: 0 4px 15px var(--shadow); border: 1px solid var(--border); flex-wrap: wrap; }
-        .search-bar { flex: 2; min-width: 200px; padding: 14px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--bg); color: var(--text); }
-        .filter-select { flex: 1; min-width: 150px; padding: 14px; border-radius: 10px; border: 2px solid var(--border); font-size: 16px; font-family: 'Almarai'; background: var(--bg); color: var(--text); }
-        .view-icons { display: flex; gap: 10px; flex: 0 0 auto; }
-        .view-btn { background: var(--bg); color: var(--text); border: 2px solid var(--border); width: 50px; height: 50px; font-size: 20px; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        /* الفلاتر والبحث المتناسقة تماماً (Symmetrical Grid) */
+        .toolbar { 
+            display: grid; 
+            grid-template-columns: 2fr 1fr auto; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+            align-items: center; 
+            background: var(--card-bg); 
+            padding: 15px; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 15px var(--shadow); 
+            border: 1px solid var(--border); 
+        }
+        .search-bar, .filter-select { 
+            height: 50px; 
+            padding: 0 15px; 
+            border-radius: 10px; 
+            border: 2px solid var(--border); 
+            font-size: 16px; 
+            font-family: 'Almarai'; 
+            background: var(--bg); 
+            color: var(--text); 
+            box-sizing: border-box; 
+            width: 100%; 
+        }
+        .view-icons { display: flex; gap: 10px; height: 50px; }
+        .view-btn { 
+            background: var(--bg); 
+            color: var(--text); 
+            border: 2px solid var(--border); 
+            width: 50px; 
+            height: 50px; 
+            font-size: 20px; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-sizing: border-box; 
+        }
         .view-btn.active, .view-btn:hover { background: var(--secondary); color: black; border-color: var(--secondary); }
+        
+        @media (max-width: 768px) { .toolbar { grid-template-columns: 1fr; } .view-icons { justify-content: center; } }
 
         /* نظام العرض */
         .prop-grid { display: grid; gap: 20px; transition: 0.3s; }
@@ -65,7 +101,9 @@
         .prop-img { width: 100%; height: 220px; object-fit: cover; pointer-events: none; }
         .status-tag { position: absolute; top: 15px; inset-inline-end: 15px; padding: 6px 12px; border-radius: 20px; color: white; font-weight: bold; font-size: 13px; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
         .tag-avail { background: #27ae60; } .tag-sold { background: #c0392b; } .tag-arch { background: #7f8c8d; }
-        .views-tag { position: absolute; top: 15px; inset-inline-start: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 10px; border-radius: 15px; font-size: 12px; z-index: 10; display: flex; align-items: center; gap: 5px; backdrop-filter: blur(2px); }
+        
+        /* علامة المشاهدات السرية (للموظف فقط) */
+        .views-tag-secret { position: absolute; top: 15px; inset-inline-start: 15px; background: rgba(212, 175, 55, 0.9); color: black; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight:bold; z-index: 10; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
 
         .prop-details { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .price-text { font-size: 22px; font-weight: 800; color: var(--primary); margin: 8px 0; }
@@ -76,12 +114,20 @@
         .login-box { background:var(--card-bg); padding:40px; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
 
         /* الأزرار العامة */
-        .btn-action { padding: 12px; border-radius: 10px; border: none; font-family: 'Almarai'; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; flex: 1; display:flex; justify-content:center; align-items:center; gap:5px; }
+        .btn-action { padding: 12px; border-radius: 10px; border: none; font-family: 'Almarai'; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; flex: 1; display:flex; justify-content:center; align-items:center; gap:5px; height: 45px; box-sizing: border-box; }
         .btn-main { background: var(--primary); color: white; }
         .btn-main:hover { background: #0a291a; }
         .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
         [data-theme="dark"] .btn-outline { border-color: var(--secondary); color: var(--secondary); }
         
+        /* أزرار الموظفين الموحدة */
+        .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border); }
+        .btn-admin { padding: 10px; border-radius: 10px; font-family: 'Almarai'; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; display:flex; justify-content:center; align-items:center; gap:5px; height: 45px; border: none; }
+        .btn-edit { background: rgba(212, 175, 55, 0.15); color: #b8860b; border: 1px solid #d4af37; }
+        .btn-edit:hover { background: #d4af37; color: white; }
+        .btn-delete { background: rgba(231, 76, 60, 0.1); color: #e74c3c; border: 1px solid #e74c3c; }
+        .btn-delete:hover { background: #e74c3c; color: white; }
+
         /* زر الواتساب العائم */
         .floating-wa { position: fixed; bottom: 25px; inset-inline-end: 25px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: transform 0.3s; }
         .floating-wa:hover { transform: scale(1.1); }
@@ -106,7 +152,6 @@
         <div class="top-nav">
             <button class="nav-btn" onclick="toggleLanguage()" id="langBtn">🌐 EN</button>
             <button class="nav-btn" onclick="toggleTheme()" id="themeBtn" style="font-size: 18px;">🌙</button>
-            
             <button class="nav-btn" onclick="window.open('https://maps.app.goo.gl/CYkchicmZwX2o9fe9')">📍 <span data-i18n="mapLocation">موقع مكتبنا</span></button>
             <button class="nav-btn" style="background:var(--secondary); color:black;" onclick="showLogin()" id="adminBtn">👤 <span data-i18n="loginBtn">تسجيل الدخول</span></button>
         </div>
@@ -187,13 +232,12 @@
 
     <div id="detailsModal" style="display:none; position:fixed; z-index:4000; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); overflow-y:auto; backdrop-filter: blur(5px);">
         <div style="background:var(--card-bg); margin:40px auto; width:95%; max-width:800px; border-radius:20px; padding:30px; position:relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-            <span onclick="this.parentElement.parentElement.style.display='none'" style="position:absolute; inset-inline-start:20px; top:15px; font-size:35px; cursor:pointer; color:var(--text);">&times;</span>
+            <span onclick="this.parentElement.parentElement.style.display='none'" style="position:absolute; inset-inline-start:20px; top:15px; font-size:35px; cursor:pointer; color:var(--text);">×</span>
             <div id="detailsContent"></div>
         </div>
     </div>
 
     <script>
-        // إعدادات Firebase (نفس إعداداتك الأصلية بدون مساس)
         const firebaseConfig = {
             apiKey: "AIzaSyAbzqda0NFaj3nAotHK9_1exNqNDeRASxk",
             authDomain: "alfateh-aqar.firebaseapp.com",
@@ -209,7 +253,6 @@
         let allData = [];
         let currentLang = 'ar';
 
-        // --- نظام اللغات ---
         const dict = {
             ar: {
                 loginBtn: "تسجيل الدخول", mapLocation: "موقع مكتبنا", mainTitle: "حي الفتح للعقار", subTitle: "نظام الإدارة العقارية المتكامل",
@@ -218,7 +261,7 @@
                 l_type: "نوع العقار", l_neigh: "الحي", l_area: "المساحة", l_price: "السعر", l_status: "حالة العقار", l_map: "رابط الموقع (خرائط جوجل)", l_details: "تفاصيل إضافية عن العقار", l_owner: "اسم المالك (سري)", l_phone: "جوال المالك (سري)", l_imgs: "صور العقار (تختم تلقائياً)", btnSave: "💾 حفظ ونشر العقار", btnCancel: "إلغاء التعديل",
                 s_total: "إجمالي العقارات", s_avail: "المتاح للعرض", s_sold: "المباع",
                 f_all: "كل العقارات", f_villa: "فلل", f_apt: "شقق", f_land: "أراضي", f_bldg: "عمارات", f_farm: "مزارع",
-                ui_area: "المساحة", ui_details: "التفاصيل", ui_share: "مشاركة", ui_edit: "تعديل", ui_delete: "حذف", ui_views: "المشاهدات", ui_status: "الحالة", ui_price: "السعر", ui_whatsapp: "واتساب"
+                ui_area: "المساحة", ui_details: "التفاصيل", ui_share: "مشاركة", ui_edit: "تعديل", ui_delete: "حذف", ui_status: "الحالة", ui_price: "السعر", ui_whatsapp: "واتساب"
             },
             en: {
                 loginBtn: "Login", mapLocation: "Our Location", mainTitle: "Al Fateh Real Estate", subTitle: "Integrated Management System",
@@ -227,7 +270,7 @@
                 l_type: "Property Type", l_neigh: "Neighborhood", l_area: "Area", l_price: "Price", l_status: "Status", l_map: "Google Maps Link", l_details: "Property Details", l_owner: "Owner Name (Secret)", l_phone: "Owner Phone (Secret)", l_imgs: "Images (Auto-Watermarked)", btnSave: "💾 Save & Publish", btnCancel: "Cancel Edit",
                 s_total: "Total Props", s_avail: "Available", s_sold: "Sold",
                 f_all: "All Properties", f_villa: "Villas", f_apt: "Apartments", f_land: "Lands", f_bldg: "Buildings", f_farm: "Farms",
-                ui_area: "Area", ui_details: "Details", ui_share: "Share", ui_edit: "Edit", ui_delete: "Delete", ui_views: "Views", ui_status: "Status", ui_price: "Price", ui_whatsapp: "WhatsApp"
+                ui_area: "Area", ui_details: "Details", ui_share: "Share", ui_edit: "Edit", ui_delete: "Delete", ui_status: "Status", ui_price: "Price", ui_whatsapp: "WhatsApp"
             }
         };
 
@@ -242,12 +285,10 @@
                 if (dict[currentLang][key]) el.innerText = dict[currentLang][key];
             });
             
-            // تحديث الـ Placeholders
             document.getElementById('searchBox').placeholder = currentLang === 'ar' ? "🔍 ابحث عن حي أو تفاصيل..." : "🔍 Search neighborhood...";
-            renderAll(); // إعادة رسم الكروت باللغة الجديدة
+            renderAll(); 
         }
 
-        // --- وظائف الواجهة ---
         function showLogin() { 
             if(isAdmin) { isAdmin=false; location.reload(); }
             else { document.getElementById('loginModal').style.display='flex'; }
@@ -277,7 +318,6 @@
             document.getElementById('themeBtn').innerText = isDark ? '🌙' : '☀️';
         }
 
-        // --- تحميل وعرض البيانات ---
         async function loadData() {
             document.getElementById('mainGrid').innerHTML = '<h3 style="text-align:center; grid-column: 1/-1;">جاري التحميل...</h3>';
             const snap = await db.collection('properties').orderBy('timestamp', 'desc').get();
@@ -296,14 +336,13 @@
             const grid = document.getElementById('mainGrid');
             grid.innerHTML = '';
             
-            const t = dict[currentLang]; // استدعاء الترجمة للأزرار داخل الكرت
+            const t = dict[currentLang]; 
             
             data.forEach(item => {
                 if(item.status === 'مؤرشف' && !isAdmin) return;
                 
                 const statusClass = item.status === 'متاح' ? 'tag-avail' : (item.status === 'مباع' ? 'tag-sold' : 'tag-arch');
                 
-                // ترجمة الحالة إذا كانت إنجليزي
                 let displayStatus = item.status;
                 if(currentLang === 'en') {
                     if(item.status === 'متاح') displayStatus = 'Available';
@@ -315,7 +354,7 @@
                 const card = document.createElement('div');
                 card.className = 'prop-card';
                 card.innerHTML = `
-                    <div class="views-tag">👁️ ${item.views || 0}</div>
+                    ${isAdmin ? `<div class="views-tag-secret" title="عدد المشاهدات (سري للموظف)">👁️ ${item.views || 0}</div>` : ''}
                     <div class="status-tag ${statusClass}">${displayStatus}</div>
                     <img src="${(item.imgs && item.imgs[0]) || 'https://via.placeholder.com/400x250'}" class="prop-img" loading="lazy">
                     <div class="prop-details">
@@ -331,9 +370,9 @@
                                 <button class="btn-action btn-outline" onclick="shareMe('${item.type}','${item.neigh}')">🔗 ${t.ui_share}</button>
                             </div>
                             ${isAdmin ? `
-                                <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border); display:flex; gap:5px;">
-                                    <button onclick="editItem('${item.id}')" style="flex:1; padding:8px; border-radius:8px; border:1px solid var(--primary); background:transparent; cursor:pointer;">${t.ui_edit}</button>
-                                    <button onclick="deleteItem('${item.id}')" style="flex:1; padding:8px; border-radius:8px; border:none; background:#e74c3c; color:white; cursor:pointer;">${t.ui_delete}</button>
+                                <div class="admin-actions">
+                                    <button onclick="editItem('${item.id}')" class="btn-admin btn-edit">✏️ ${t.ui_edit}</button>
+                                    <button onclick="deleteItem('${item.id}')" class="btn-admin btn-delete">🗑️ ${t.ui_delete}</button>
                                 </div>
                             ` : ''}
                         </div>
@@ -360,9 +399,10 @@
             let adminSec = '';
             if(isAdmin) {
                 adminSec = `<div style="background:rgba(212,175,55,0.1); padding:20px; border-radius:15px; margin:20px 0; border:1px dashed var(--secondary);">
-                    <h4 style="margin:0 0 10px 0; color:var(--primary);">🔒 بيانات خاصة (للموظف فقط):</h4>
-                    <p style="margin:5px 0;"><b>المالك:</b> ${item.ownerName || 'لا يوجد'}</p>
-                    <p style="margin:5px 0;"><b>الجوال:</b> ${item.ownerPhone || 'لا يوجد'}</p>
+                    <h4 style="margin:0 0 10px 0; color:var(--primary);">🔒 بيانات وإحصائيات خاصة (للموظف فقط):</h4>
+                    <p style="margin:5px 0;"><b>👁️ عدد المشاهدات:</b> ${item.views || 0}</p>
+                    <p style="margin:5px 0;"><b>👤 المالك:</b> ${item.ownerName || 'لا يوجد'}</p>
+                    <p style="margin:5px 0;"><b>📱 الجوال:</b> ${item.ownerPhone || 'لا يوجد'}</p>
                 </div>`;
             }
 
@@ -378,7 +418,6 @@
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; font-size:16px; border-top:1px solid var(--border); padding-top:20px;">
                     <p><b>${t.ui_area}:</b> ${item.area || '-'}</p>
-                    <p><b>${t.ui_views}:</b> ${item.views || 0} 👁️</p>
                     <p><b>${t.ui_status}:</b> ${item.status}</p>
                 </div>
                 
@@ -392,7 +431,6 @@
             document.getElementById('detailsModal').style.display = 'block';
         }
 
-        // --- ختم وحفظ الصور ---
         async function compressImg(file) {
             return new Promise(res => {
                 const reader = new FileReader();
@@ -420,7 +458,6 @@
             });
         }
 
-        // --- إدارة البيانات (إضافة/تعديل/حذف) ---
         document.getElementById('propForm').onsubmit = async (e) => {
             e.preventDefault();
             const saveBtn = document.getElementById('saveBtn');
@@ -435,22 +472,20 @@
             const data = {
                 type: document.getElementById('f_type').value,
                 neigh: document.getElementById('f_neigh').value,
-                area: document.getElementById('f_area').value, // نص حر
-                price: document.getElementById('f_price').value, // نص حر
+                area: document.getElementById('f_area').value, 
+                price: document.getElementById('f_price').value, 
                 status: document.getElementById('f_status').value,
                 map: document.getElementById('f_map').value,
-                details: document.getElementById('f_details').value, // التفاصيل الجديدة
+                details: document.getElementById('f_details').value, 
                 ownerName: document.getElementById('f_owner').value,
                 ownerPhone: document.getElementById('f_phone').value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
             if(!id) data.views = 0; 
             
-            // تحديث الصور فقط إذا تم رفع صور جديدة
             if(imgList.length > 0) {
                 data.imgs = imgList;
             } else if (id) {
-                // الحفاظ على الصور القديمة عند التعديل بدون رفع صور
                 const existingItem = allData.find(i => i.id === id);
                 data.imgs = existingItem.imgs;
             }
@@ -519,7 +554,6 @@
             dl.click();
         }
 
-        // تشغيل البداية
         loadData();
     </script>
 </body>
