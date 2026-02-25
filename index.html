@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكتب حي الفتح للعقار</title>
+    <title>مكتب حي الفتح للخدمات العقارية</title>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
@@ -25,7 +25,10 @@
         
         /* الهيدر */
         header { background: linear-gradient(135deg, var(--primary), #0a291a); color: white; padding: 40px 20px; position: relative; text-align: center; border-bottom: 4px solid var(--secondary); display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--secondary); object-fit: cover; background: white; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        /* الشعار العقاري الجديد بدلاً من الصورة القديمة */
+        .logo { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--secondary); background: white; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; }
+        .logo svg { width: 55px; height: 55px; fill: var(--primary); }
         
         .top-nav { position: absolute; top: 20px; left: 20px; right: 20px; display: flex; justify-content: space-between; align-items: center; z-index: 100; pointer-events: none; }
         .top-nav-group { display: flex; gap: 10px; pointer-events: auto; }
@@ -167,7 +170,7 @@
         .login-box h2 { color: var(--primary); margin-bottom: 10px; }
 
         /* أيقونة الواتساب العائمة */
-        .floating-wa { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.2s; }
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #25d366; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; text-decoration: none; transition: 0.2s; }
         .floating-wa:hover { transform: scale(1.1); }
     </style>
 </head>
@@ -203,7 +206,11 @@
         </div>
     </div>
 
-    <a href="https://wa.me/966590002216" class="floating-wa" target="_blank" title="تواصل معنا">💬</a>
+    <a href="https://wa.me/966590002216" class="floating-wa" target="_blank" title="تواصل معنا">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
 
     <header>
         <div class="top-nav">
@@ -216,8 +223,14 @@
                 <button class="nav-btn nav-btn-highlight" onclick="showLogin()" id="adminBtn">👤 دخول</button>
             </div>
         </div>
-        <img src="https://c.top4top.io/p_37048y9xn1.jpg" class="logo" alt="Logo">
-        <h1 style="margin-bottom: 5px;">حي الفتح للعقار</h1>
+        
+        <div class="logo">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3zm0 2.7l5 4.5V18h-2v-6H9v6H7v-7.8l5-4.5z"/>
+            </svg>
+        </div>
+        
+        <h1 style="margin-bottom: 5px;">مكتب حي الفتح للخدمات العقارية</h1>
         <p style="opacity: 0.85; font-size: 16px;">نظام الإدارة العقارية المتكامل</p>
     </header>
 
@@ -227,7 +240,18 @@
             <form id="propForm">
                 <input type="hidden" id="editId">
                 <div class="admin-form-group">
-                    <div class="input-wrapper"><label>نوع العقار</label><input type="text" id="f_type" class="admin-input" required placeholder="مثال: فيلا، شقة..."></div>
+                    <div class="input-wrapper">
+                        <label>نوع العقار (اختر من القائمة)</label>
+                        <select id="f_type" class="admin-input" required>
+                            <option value="" disabled selected>اختر النوع...</option>
+                            <option value="فيلا">فيلا</option>
+                            <option value="شقة">شقة</option>
+                            <option value="أرض">أرض</option>
+                            <option value="عمارة">عمارة</option>
+                            <option value="مزرعة">مزرعة</option>
+                        </select>
+                    </div>
+                    
                     <div class="input-wrapper"><label>الحي</label><input type="text" id="f_neigh" class="admin-input" required placeholder="اسم الحي"></div>
                     <div class="input-wrapper"><label>المساحة</label><input type="text" id="f_area" class="admin-input" placeholder="مثال: 300م"></div>
                     <div class="input-wrapper"><label>السعر</label><input type="text" id="f_price" class="admin-input" required placeholder="مثال: 1,500,000 ريال"></div>
@@ -279,13 +303,16 @@
 
         <div class="toolbar">
             <input type="text" id="searchBox" class="admin-input" placeholder="🔍 ابحث عن حي، نوع، أو تفاصيل..." onkeyup="filterContent()">
+            
             <select id="filterType" class="admin-input" onchange="filterContent()">
                 <option value="الكل">جميع الأنواع</option>
                 <option value="فيلا">فيلا</option>
                 <option value="شقة">شقة</option>
                 <option value="أرض">أرض</option>
                 <option value="عمارة">عمارة</option>
+                <option value="مزرعة">مزارع</option>
             </select>
+            
             <div class="view-icons">
                 <button class="view-btn active" id="btnGrid" onclick="setView('grid')">⬜</button>
                 <button class="view-btn" id="btnList" onclick="setView('list')">☰</button>
@@ -428,7 +455,10 @@
                 </div>` : ''}
                 
                 <div class="details-actions">
-                    <a href="https://wa.me/966590002216?text=استفسار عن ${item.type} في ${item.neigh} بسعر ${item.price}" target="_blank" class="btn-whatsapp">💬 تواصل واتساب</a>
+                    <a href="https://wa.me/966590002216?text=استفسار عن ${item.type} في ${item.neigh} بسعر ${item.price}" target="_blank" class="btn-whatsapp">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                        تواصل واتساب
+                    </a>
                     ${item.map ? `<a href="${item.map}" target="_blank" class="btn-map">📍 خريطة</a>` : ''}
                 </div>
             `;
@@ -469,7 +499,9 @@
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                         ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
                         ctx.font = "bold 40px Almarai";
-                        ctx.fillText("حي الفتح للعقار", 30, 60);
+                        
+                        // تم تحديث الختم المائي على الصور للاسم الجديد
+                        ctx.fillText("مكتب حي الفتح للخدمات العقارية", 30, 60);
                         res(canvas.toDataURL('image/jpeg', 0.7));
                     }
                 }
@@ -487,7 +519,8 @@
             let newImgs = [];
             for (let f of files) newImgs.push(await compressImg(f));
 
-            const finalImgsArray = [...currentEditImgs, ...newImgs]; // دمج المتبقي مع الجديد (يحل مشكلة الحذف)
+            const finalImgsArray = [...currentEditImgs, ...newImgs];
+            // دمج المتبقي مع الجديد (يحل مشكلة الحذف)
 
             const data = {
                 type: document.getElementById('f_type').value,
@@ -502,23 +535,27 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 imgs: finalImgsArray
             };
-
             if(id) await db.collection('properties').doc(id).update(data);
-            else { data.views = 0; await db.collection('properties').add(data); }
+            else { data.views = 0; await db.collection('properties').add(data);
+            }
 
             cancelEdit();
             loadData();
             alert("تم الحفظ بنجاح!");
-            btn.disabled = false; btn.innerText = "💾 حفظ ونشر العقار";
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ ونشر العقار";
         };
 
         function editItem(id) {
             const item = allData.find(i => i.id === id);
             document.getElementById('editId').value = item.id;
-            ['type','neigh','area','price','status','map','details'].forEach(k => document.getElementById('f_'+k).value = item[k] || '');
+            ['type','neigh','area','price','status','map','details'].forEach(k => {
+                if(document.getElementById('f_'+k)) {
+                    document.getElementById('f_'+k).value = item[k] || '';
+                }
+            });
             document.getElementById('f_owner').value = item.ownerName || '';
             document.getElementById('f_phone').value = item.ownerPhone || '';
-            
             currentEditImgs = item.imgs ? [...item.imgs] : [];
             renderEditImgs();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -527,12 +564,16 @@
         function cancelEdit() {
             document.getElementById('propForm').reset();
             document.getElementById('editId').value = '';
+            
+            // تصفير القائمة المنسدلة للنوع برمجياً بعد الإلغاء
+            document.getElementById('f_type').value = ''; 
             currentEditImgs = [];
             renderEditImgs();
         }
 
         async function deleteItem(id) {
-            if(confirm("متأكد من الحذف النهائي؟")) { await db.collection('properties').doc(id).delete(); loadData(); }
+            if(confirm("متأكد من الحذف النهائي؟")) { await db.collection('properties').doc(id).delete();
+            loadData(); }
         }
 
         function filterContent() {
@@ -540,7 +581,10 @@
             const type = document.getElementById('filterType').value;
             const filtered = allData.filter(i => {
                 const matchT = (i.neigh && i.neigh.toLowerCase().includes(v)) || (i.type && i.type.toLowerCase().includes(v)) || (i.details && i.details.toLowerCase().includes(v));
-                const matchF = type === 'الكل' || (i.type && i.type.includes(type));
+                
+                // تم التعديل ليكون التطابق تام بين البحث وبين اختيار الموظف
+                const matchF = type === 'الكل' || (i.type && i.type === type);
+                
                 return matchT && matchF;
             });
             renderAll(filtered);
@@ -559,7 +603,8 @@
             document.getElementById('themeBtn').innerText = isDark ? '🌙' : '☀️';
         }
         
-        function toggleLanguage() { alert("تم تعطيل الترجمة المؤقتة لتركيز الكود على التصميم المتماثل حسب الطلب."); }
+        function toggleLanguage() { alert("تم تعطيل الترجمة المؤقتة لتركيز الكود على التصميم المتماثل حسب الطلب.");
+        }
 
         function shareMe(t, n) { 
             if(navigator.share) navigator.share({title: t, text: `عقار في ${n}`, url: window.location.href});
