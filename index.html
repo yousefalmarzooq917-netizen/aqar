@@ -46,6 +46,20 @@
         .nav-btn:hover { background: var(--secondary); color: #1e3c72; border-color: var(--secondary); transform: translateY(-2px); }
         .nav-btn-highlight { background: var(--secondary); color: #1e3c72; border: none; box-shadow: 0 4px 10px rgba(242, 166, 90, 0.4); }
 
+        /* === أزرار التواصل في الهيدر === */
+        .header-contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; max-width: 800px; }
+        .contact-badge-group { display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 50px; padding: 5px; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .contact-badge-title { padding: 0 12px; font-size: 13px; font-weight: bold; color: white; }
+        .h-btn { display: flex; align-items: center; gap: 5px; padding: 8px 16px; border-radius: 50px; font-size: 13px; font-weight: bold; text-decoration: none; color: white; transition: 0.2s; }
+        .h-btn:hover { transform: translateY(-2px); }
+        .h-btn.wa-btn { background: #25d366; }
+        .h-btn.wa-btn:hover { background: #1ebe57; }
+        .h-btn.wa-btn-alt { background: #128C7E; }
+        .h-btn.wa-btn-alt:hover { background: #075E54; }
+        .h-btn.call-btn { background: var(--secondary); color: #1e3c72; margin-inline-start: 5px; }
+        .h-btn.call-btn:hover { background: #fce2c2; }
+        @media (max-width: 600px) { .contact-badge-group { flex-direction: column; border-radius: 18px; padding: 10px; width: 100%; gap: 8px; } .contact-badge-title { margin-bottom: 5px; } .h-btn { width: 100%; justify-content: center; } .h-btn.call-btn { margin-inline-start: 0; } }
+
         .container { width: 100%; max-width: 1200px; margin: -20px auto 30px; padding: 0 20px; position: relative; z-index: 10; }
 
         /* لوحة التحكم */
@@ -181,7 +195,7 @@
         .login-box { background: var(--card-bg); padding: 45px 35px; border-radius: 24px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; gap: 15px; }
         .login-box h2 { color: var(--primary); margin-bottom: 10px; font-size: 26px; }
 
-        /* الأزرار العائمة */
+        /* الأزرار العائمة (يمين أسفل الشاشة) */
         .floating-wa-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
         .floating-wa { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(0,0,0,0.25); text-decoration: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; color: white; background: #25d366; }
         
@@ -246,6 +260,20 @@
         
         <h1 style="margin-bottom: 8px; font-size: 34px; font-weight: 800; letter-spacing: -0.5px;">مكتب حي الفتح للخدمات العقارية</h1>
         <p style="opacity: 0.9; font-size: 18px; font-weight: 300;">بوابتك العصرية للعقار الأنسب</p>
+
+        <div class="header-contact-links">
+            <div class="contact-badge-group">
+                <span class="contact-badge-title">الإدارة:</span>
+                <a href="https://wa.me/966590100077" target="_blank" class="h-btn wa-btn">💬 واتساب</a>
+                <a href="tel:0590100077" class="h-btn call-btn">📞 اتصال</a>
+            </div>
+            
+            <div class="contact-badge-group">
+                <span class="contact-badge-title">المبيعات:</span>
+                <a href="https://wa.me/966590002216" target="_blank" class="h-btn wa-btn-alt">💬 واتساب</a>
+                <a href="tel:0590002216" class="h-btn call-btn">📞 اتصال</a>
+            </div>
+        </div>
     </header>
 
     <div class="container">
@@ -416,12 +444,10 @@
             renderAll();
         }
 
-        // استخراج الأحياء الفريدة من البيانات ووضعها في القائمة
         function populateNeighborhoods() {
             const neighSelect = document.getElementById('filterNeigh');
             const currentVal = neighSelect.value;
             
-            // جلب أسماء الأحياء بدون تكرار
             const uniqueNeighs = [...new Set(allData.map(item => item.neigh).filter(Boolean))];
             
             let options = '<option value="الكل">كل الأحياء</option>';
@@ -430,7 +456,6 @@
             });
             
             neighSelect.innerHTML = options;
-            // الحفاظ على الخيار المحدد سابقاً إذا كان موجوداً
             neighSelect.value = uniqueNeighs.includes(currentVal) ? currentVal : "الكل";
         }
 
@@ -453,7 +478,7 @@
                 if(item.status === 'مؤرشف' && !isAdmin) return;
                 
                 const statusClass = item.status === 'متاح' ? 'tag-avail' : (item.status === 'مباع' ? 'tag-sold' : 'tag-arch');
-                const opType = item.op || 'بيع'; // افتراضي بيع للبيانات القديمة
+                const opType = item.op || 'بيع'; 
                 const opClass = opType === 'إيجار' ? 'op-rent' : 'op-sale';
                 
                 const card = document.createElement('div');
@@ -611,7 +636,7 @@
 
             const data = {
                 type: document.getElementById('f_type').value,
-                op: document.getElementById('f_op').value, // بيع أو إيجار
+                op: document.getElementById('f_op').value, 
                 neigh: document.getElementById('f_neigh').value,
                 area: document.getElementById('f_area').value,
                 price: document.getElementById('f_price').value,
@@ -637,7 +662,6 @@
             const item = allData.find(i => i.id === id);
             document.getElementById('editId').value = item.id;
             
-            // تعبئة البيانات في النموذج
             ['type','op','neigh','area','price','status','map','details'].forEach(k => {
                 if(document.getElementById('f_'+k)) {
                     document.getElementById('f_'+k).value = item[k] || (k==='op'?'بيع':'');
@@ -663,7 +687,6 @@
             if(confirm("متأكد من الحذف النهائي؟")) { await db.collection('properties').doc(id).delete(); loadData(); }
         }
 
-        // فلترة شاملة بالنوع والحي والعملية
         function filterContent() {
             const searchVal = document.getElementById('searchBox').value.toLowerCase();
             const typeVal = document.getElementById('filterType').value;
@@ -673,7 +696,7 @@
             const filtered = allData.filter(i => {
                 const matchSearch = (i.details && i.details.toLowerCase().includes(searchVal)) || (i.neigh && i.neigh.toLowerCase().includes(searchVal));
                 const matchType = typeVal === 'الكل' || (i.type && i.type === typeVal);
-                const itemOp = i.op || 'بيع'; // للعقارات القديمة
+                const itemOp = i.op || 'بيع'; 
                 const matchOp = opVal === 'الكل' || itemOp === opVal;
                 const matchNeigh = neighVal === 'الكل' || (i.neigh && i.neigh === neighVal);
 
@@ -700,7 +723,6 @@
             else alert("انسخ الرابط للمشاركة: " + window.location.href);
         }
 
-        // --- وظيفة مساعدة لإضافة بيانات تجريبية ---
         async function injectDummyData() {
             if(!confirm("سيتم إضافة 3 عقارات تجريبية للقاعدة لتجربة التصميم. هل توافق؟")) return;
             
@@ -714,7 +736,7 @@
                 await db.collection('properties').add(d);
             }
             alert("تمت الإضافة بنجاح!");
-            loadData(); // إعادة تحميل البيانات لتظهر فوراً
+            loadData(); 
         }
 
         loadData();
