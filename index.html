@@ -60,7 +60,6 @@
         .h-btn.call-btn { background: var(--secondary); color: #1e3c72; margin-inline-start: 5px; }
         .h-btn.call-btn:hover { background: #fce2c2; }
         
-        /* توافق الهيدر مع الجوال */
         @media (max-width: 650px) { 
             .top-nav { justify-content: center; }
             .top-nav-group { justify-content: center; }
@@ -104,7 +103,7 @@
         .stat-item span.val { font-size: 28px; font-weight: 800; color: var(--primary); line-height: 1; }
         @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } }
 
-        /* شريط الأدوات (البحث والفلاتر) معدل للجوال */
+        /* شريط الأدوات */
         .toolbar { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 12px; margin-bottom: 30px; align-items: center; background: var(--card-bg); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 8px 25px var(--shadow); }
         .toolbar .admin-input { height: 50px; margin: 0; border-width: 2px; }
         .view-icons { display: flex; gap: 10px; height: 50px; justify-content: flex-end; }
@@ -185,6 +184,11 @@
 
         .details-desc { font-size: 16px; line-height: 1.9; color: var(--text); margin-bottom: 25px; white-space: pre-wrap; padding: 0 5px; }
         
+        /* تنسيق الروابط داخل التفاصيل */
+        .details-desc a { color: #2563eb; text-decoration: underline; font-weight: bold; word-break: break-all; transition: 0.2s; }
+        .details-desc a:hover { color: var(--secondary); }
+        [data-theme="dark"] .details-desc a { color: #60a5fa; }
+
         /* أزرار الواتساب في التفاصيل - عمودية (تحت بعض) */
         .details-actions { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
         .btn-whatsapp { width: 100%; height: 55px; background: #25d366; color: white; border-radius: 12px; display: flex; justify-content: center; align-items: center; text-decoration: none; font-weight: bold; font-size: 16px; gap: 10px; transition: 0.2s; }
@@ -338,7 +342,7 @@
                     
                     <div class="input-wrapper full-width">
                         <label>تفاصيل إضافية</label>
-                        <textarea id="f_details" class="admin-input" placeholder="عمر العقار، الواجهة، عدد الغرف..."></textarea>
+                        <textarea id="f_details" class="admin-input" placeholder="عمر العقار، عدد الغرف، روابط الفيديوهات..."></textarea>
                     </div>
                 </div>
 
@@ -539,6 +543,16 @@
             document.getElementById('lightboxImg').src = lightboxImgs[lightboxIndex];
         }
 
+        // دالة تحويل الروابط النصية إلى روابط قابلة للضغط
+        function linkify(text) {
+            if (!text) return 'لا توجد تفاصيل إضافية.';
+            let safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return safeText.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank">${url}</a>`;
+            });
+        }
+
         async function openDetails(id) {
             const item = allData.find(i => i.id === id);
             if(!isAdmin) await db.collection('properties').doc(id).update({ views: firebase.firestore.FieldValue.increment(1) });
@@ -563,7 +577,7 @@
                     <span class="area">📏 المساحة: ${item.area || '-'}</span>
                 </div>
                 
-                <div class="details-desc">${item.details || 'لا توجد تفاصيل إضافية.'}</div>
+                <div class="details-desc">${linkify(item.details)}</div>
                 
                 ${isAdmin ? `
                 <div style="background: rgba(242, 166, 90, 0.15); padding: 15px; border-radius: 12px; margin-bottom: 25px; font-size: 14px; border: 1px dashed var(--secondary);">
@@ -726,6 +740,8 @@
             body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             document.getElementById('themeBtn').innerText = isDark ? '🌙' : '☀️';
         }
+        
+        function toggleLanguage() { alert("تم تعطيل الترجمة المؤقتة لتركيز الكود على التصميم المتماثل حسب الطلب."); }
 
         function shareMe(t, n) { 
             if(navigator.share) navigator.share({title: t, text: `عقار في ${n}`, url: window.location.href});
@@ -736,7 +752,7 @@
             if(!confirm("سيتم إضافة 3 عقارات تجريبية للقاعدة لتجربة التصميم. هل توافق؟")) return;
             
             const dummy = [
-                { type: 'دوبلكس', neigh: 'الفيصلية', area: '400م', price: '1,200,000 ريال', status: 'متاح', map: '', details: 'دوبلكس متصل، واجهة شرقية، يتكون من دورين وملحق.', ownerName: 'محمد', ownerPhone: '0500000000', op: 'بيع', views: 45, timestamp: firebase.firestore.FieldValue.serverTimestamp() },
+                { type: 'دوبلكس', neigh: 'الفيصلية', area: '400م', price: '1,200,000 ريال', status: 'متاح', map: '', details: 'دوبلكس متصل، واجهة شرقية، يتكون من دورين وملحق.\nرابط التغطية: https://youtube.com', ownerName: 'محمد', ownerPhone: '0500000000', op: 'بيع', views: 45, timestamp: firebase.firestore.FieldValue.serverTimestamp() },
                 { type: 'محل', neigh: 'الضباب', area: '80م', price: '45,000 ريال / سنوي', status: 'متاح', map: '', details: 'محل على شارع تجاري حيوي 30 متر، مجهز بديكورات.', ownerName: 'خالد', ownerPhone: '0500000001', op: 'إيجار', views: 12, timestamp: firebase.firestore.FieldValue.serverTimestamp() },
                 { type: 'منتجع', neigh: 'الفرسان', area: '1200م', price: '3,500,000 ريال', status: 'متاح', map: '', details: 'منتجع راقي مجهز بمسبح، مسطحات خضراء، ومجالس فاخرة.', ownerName: 'شركة عقار', ownerPhone: '0500000002', op: 'بيع', views: 88, timestamp: firebase.firestore.FieldValue.serverTimestamp() }
             ];
